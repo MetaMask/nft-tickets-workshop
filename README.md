@@ -28,10 +28,8 @@ Some of the command we have already run are:
 > npm i polished styled-components
 > npm i @openzeppelin/contracts
 
-Run `npm start` and ensure that you get a standard React Projects with no errors in the terminal or in the browser console.
+Run `npm i && npm start` and ensure that you get a standard React Projects with no errors in the terminal or in the browser console.
 
 ## Start Here
-
-We will start with our preco
 
 > 
