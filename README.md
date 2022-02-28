@@ -160,3 +160,35 @@ We want to set these tickets up so that when they are initially created, that we
 
 ## Creating Individual NFT Tokens
 
+Let's replace the current `constructor()` with this new version of it, plus an extra solidity function to create eac of our NFT Tickets:
+
+```ts
+    constructor() ERC721("Foxcon2022", "FXC22") {
+      // _private method
+      // (to: who owns it?, tokenId: what token is owned?)
+      _createTicket(msg.sender, 1, "");
+      _createTicket(msg.sender, 2, "");
+      _createTicket(msg.sender, 3, "");
+      // ^ generates 3 token NFTs that we can sell as tickets
+    }
+
+    function _createTicket(address to, uint id, string memory url) private returns(bool) {
+      _safeMint(to, id);
+      return true;
+    }
+```
+
+At this point we are going to delete our build folder and we want to migrate this contract and test it locally with Ganache & Truffle.
+
+```bash
+truffle migrate
+```
+
+If we check Ganache after the migration is done, we will see all of our contracts, they are not deployed, but they are there:
+
+![](./assets-readme/migrate-oz-1.png)
+
+As well, all of our build artifacts are back. We only deleted them to demonstrate that they get regenerated during compile, or migrations.
+
+If we take the code inside of `Foxcon2022.sol` and paste it into the online Remix Solidity Editor and compile it, we could use the IDE's UI to play around with calling and accessing various functions that are provided to us through the OpenZeppelin inherited contracts. We could mint, setBalance and all sort's of cool things we can't easily do from our VS Code IDE without creating our own UI. Another interesting tool we could use is OneClickDapp, but we will get to more on those tools later.
+

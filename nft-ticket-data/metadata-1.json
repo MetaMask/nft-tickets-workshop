@@ -5,6 +5,7 @@
   "properties": {
     "ticketType": "VIP", 
     "ticketNumber": 1001, 
-    "event": "Foxcon 2022"
+    "event": "Foxcon 2022",
+    "guests": 3
   }
 }
