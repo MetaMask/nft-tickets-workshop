@@ -192,3 +192,39 @@ As well, all of our build artifacts are back. We only deleted them to demonstrat
 
 If we take the code inside of `Foxcon2022.sol` and paste it into the online Remix Solidity Editor and compile it, we could use the IDE's UI to play around with calling and accessing various functions that are provided to us through the OpenZeppelin inherited contracts. We could mint, setBalance and all sort's of cool things we can't easily do from our VS Code IDE without creating our own UI. Another interesting tool we could use is OneClickDapp, but we will get to more on those tools later.
 
+## Setting up IPFS
+
+We need a place to store our NFT images and accompanying metadata. For this we will use IPFS. WE don't want to use some unreliable storage, we want these assets to be accessible forever. We need an immutable storage facility that will hold our `json` metadata that points to our NFT Ticket image as well that stores information about our Ticket and we don't ever want it to change.
+
+For this we will use IPFS.
+
+Locally, we will install [IPFS Desktop](https://ipfs.io/#install), and go to the Files section in the app and drop in our `metadata-*.json` files from the `nft-ticket-data` directory.
+
+![](./assets-readme/ipfs-1.png)
+
+When we Control click on these json files inside of our IPFS app, we can get a CID address, here is one of mine: `QmZrZQ2ykEfKnZcoeaXGCiZ36eMKopCa7d9oUwX4Nw1z6P`.
+
+Now if we tag that onto the end of an IPFS URL, we can view that file on the internet in our browser:
+
+[ipfs.io/ipfs/QmZrZQ2ykEfKnZcoeaXGCiZ36eMKopCa7d9oUwX4Nw1z6P](https://ipfs.io/ipfs/QmZrZQ2ykEfKnZcoeaXGCiZ36eMKopCa7d9oUwX4Nw1z6P)
+
+Now we cna use that address when generating our NFTs. As you might have guessed, these three CIDs are going to be pasted into the corresponding NFT TIckets:
+
+```ts
+    constructor() ERC721("Foxcon2022", "FXC22") {
+      // _private method
+      // (to: who owns it?, tokenId: what token is owned?)
+      _createTicket(msg.sender, 1, "QmZrZQ2ykEfKnZcoeaXGCiZ36eMKopCa7d9oUwX4Nw1z6P");
+      _createTicket(msg.sender, 2, "QmcX4jHMfXTc3UcEy7R721SmEdz2hGMte9dv4APv6GSKrF");
+      _createTicket(msg.sender, 3, "Qmcywck6BmUNhHzn559XzjHWJBsUChKqyRP8XqBMHk9FTs");
+      // ^ generates 3 token NFTs that we can sell as tickets
+    }
+
+    function _createTicket(address to, uint id, string memory url) private returns(bool) {
+      _safeMint(to, id);
+      _setTokenURI(id, url);
+      return true;
+    }
+```
+
+As well we have updated the `_createTicket()` method to assign both `id` and `url` when we create each NFT Ticket.

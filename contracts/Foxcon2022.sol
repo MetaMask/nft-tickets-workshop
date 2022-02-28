@@ -8,14 +8,15 @@ contract Foxcon2022 is ERC721, ERC721URIStorage {
     constructor() ERC721("Foxcon2022", "FXC22") {
       // _private method
       // (to: who owns it?, tokenId: what token is owned?)
-      _createTicket(msg.sender, 1, "");
-      _createTicket(msg.sender, 2, "");
-      _createTicket(msg.sender, 3, "");
+      _createTicket(msg.sender, 1, "QmZrZQ2ykEfKnZcoeaXGCiZ36eMKopCa7d9oUwX4Nw1z6P");
+      _createTicket(msg.sender, 2, "QmcX4jHMfXTc3UcEy7R721SmEdz2hGMte9dv4APv6GSKrF");
+      _createTicket(msg.sender, 3, "Qmcywck6BmUNhHzn559XzjHWJBsUChKqyRP8XqBMHk9FTs");
       // ^ generates 3 token NFTs that we can sell as tickets
     }
 
     function _createTicket(address to, uint id, string memory url) private returns(bool) {
       _safeMint(to, id);
+      _setTokenURI(id, url);
       return true;
     }
 
