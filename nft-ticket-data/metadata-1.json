@@ -1,0 +1,10 @@
+{ 
+  "name": "Foxcon VIP 1001",
+  "description": "Very Important Person ticket, attendee number 1001",
+  "image": "",
+  "properties": {
+    "ticketType": "VIP", 
+    "ticketNumber": 1001, 
+    "event": "Foxcon 2022"
+  }
+}

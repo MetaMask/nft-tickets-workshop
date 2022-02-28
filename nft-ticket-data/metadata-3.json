@@ -1,0 +1,10 @@
+{ 
+  "name": "Foxcon GA 100s",
+  "description": "General Admission ticket, attendee number 1003",
+  "image": "",
+  "properties": {
+    "ticketType": "GA", 
+    "ticketNumber": 1003, 
+    "event": "Foxcon 2022"
+  }
+}
