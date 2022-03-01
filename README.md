@@ -233,7 +233,7 @@ As well we have updated the `_createTicket()` method to assign both `id` and `ur
 
 I have created an Infura account, it does require adding a credit card, but I am planning on using a Free account just for testing my project. Once I have setup an IPFS project inside Infura I will have access to a `projectId` and `projectSecret`. We will use these two values to pin our IPFS files using a terminal and [the IPFS API curl command](https://docs.infura.io/infura/networks/ipfs/getting-started/make-requests#use-curl):
 
-We will run the following command for each `image-*.png` file we have:
+We will run the following command for each `image-*.png` file we have, do this from the `nft-ticket-data` directory:
 
 ```bash
 curl -X POST -F file=@image-1.png \
@@ -249,11 +249,13 @@ curl -X POST -F file=@image-3.png \
 "https://ipfs.infura.io:5001/api/v0/add"
 ```
 
+> You can watch a video with Infura's own [Michael Godsey](https://blog.infura.io/author/michael-godsey/) in this YouTube video: [Infura Demos New Enhanced IPFS API Beta](https://www.youtube.com/watch?v=mLEkACKx_sc)
+
 At this point we will have each file hosted on IPFS and pinned by Infura for faster retrieval:
 
 ![](./assets-readme/ipfs-infura-1.png)
 
-Now we can add that IPFS url for each image in our `metadata-*.json` files, here is the example for the first NFT TIcket metadata file, but do this for each one before we add them to Infura's IPFS and pinn them:
+Now we can add that IPFS url for each image in our `metadata-*.json` files, here is the example for the first NFT Ticket metadata file, but do this for each one before we add them to Infura's IPFS and pinn them:
 
 ```json
 { 
@@ -269,7 +271,7 @@ Now we can add that IPFS url for each image in our `metadata-*.json` files, here
 }
 ```
 
-We will run the following command for each `metadata-*.json` file we have:
+We will run the following command for each `metadata-*.json` file we have, do this from the `nft-ticket-data` directory:
 
 ```bash
 curl -X POST -F file=@metadata-1.json \
@@ -288,3 +290,170 @@ curl -X POST -F file=@metadata-3.json \
 At this point we will have all six files hosted on IPFS and pinned by Infura for faster retrieval:
 
 ![](./assets-readme/ipfs-infura-2.png)
+
+## Deploying our NFT Ticket Project to Rinkeby
+
+The first place we should make some changes to deploy this to a testnet is in our `truffle-config.js`, we need to uncomment the following lines:
+
+- 21 through 24 ()
+
+```js
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+
+const fs = require('fs');
+const mnemonic = fs.readFileSync(".secret").toString().trim();
+```
+
+We will need to create a new file named: `.secret` and inside of it, add the following code:
+
+```js
+my twelve word secret
+```
+
+Update your `.gitignore` with `.secret` in order to not track this file.
+
+We will also need a wallet, I have created a MetaMask account specifically for this course. I will need to go inside of it and retrieve my 12 word passphrase.
+
+
+- 60 through 69 (ropsten object)
+
+We will change "ropsten" to "rinkeby" and the rest will look like:
+
+```js
+rinkeby: {
+  provider: () => new HDWalletProvider(
+  mnemonic, `https://rinkeby.infura.io/v3/INFURA_PROJECT_ENDPOINT`
+  ),
+  from: 'PUBLIC_WALLET_ADDRESS', // Public wallet address
+  network_id: 4,       // rinkeby's id
+  gas: 5500000,        // rinkeby has a lower block limit than mainnet
+  confirmations: 2,    // # of confs to wait between deployments. (default: 0)
+  timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
+  skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
+},
+```
+
+With this all in place, we can deploy our contracts to the Renkeby testnet. 
+
+You will need some test ETH from the [Rinkeby Faucet](https://faucet.rinkeby.io/)
+
+![](./assets-readme/rinkeby-faucet-1.png)
+
+With that in place, let's test it out!
+
+```bash
+truffle migrate --network rinkeby
+```
+
+```bash
+Compiling your contracts...
+===========================
+> Compiling ./contracts/Foxcon2022.sol
+> Artifacts written to /Users/eric/src/github/metamask/nft-tickets-workshop/build/contracts
+> Compiled successfully using:
+   - solc: 0.8.4+commit.c7e474f2.Emscripten.clang
+
+
+Starting migrations...
+======================
+> Network name:    'rinkeby'
+> Network id:      4
+> Block gas limit: 29999943 (0x1c9c347)
+
+
+1_initial_migration.js
+======================
+
+   Deploying 'Migrations'
+   ----------------------
+   > transaction hash:    0xcbb72c2d00187727d7ec8510ef38c7e2a54cab97d0d8d7221f010cb4cf9f3877
+   > Blocks: 1            Seconds: 4
+   > contract address:    0x5e5e386F82e6A1a3cd140395CB8E9D3974024dE3
+   > block number:        10250442
+   > block timestamp:     1646104223
+   > account:             0x568820334111ba2a37611F9Ad70BD074295D44C5
+   > balance:             19.248456184990266691
+   > gas used:            248204 (0x3c98c)
+   > gas price:           2.50000001 gwei
+   > value sent:          0 ETH
+   > total cost:          0.00062051000248204 ETH
+
+   Pausing for 2 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 10250443)
+   > confirmation number: 2 (block: 10250444)
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:     0.00062051000248204 ETH
+
+
+2_setup_foxcon2022.js
+=====================
+
+   Deploying 'Foxcon2022'
+   ----------------------
+   > transaction hash:    0x9b17201cfc24bf9989ffc45e94c38e933a689eafaa12e79685952a109ceb1f1f
+   > Blocks: 1            Seconds: 12
+   > contract address:    0x0ea56cFFcAe68aeaDc1cB6688e1D51947e8E8712
+   > block number:        10250446
+   > block timestamp:     1646104283
+   > account:             0x568820334111ba2a37611F9Ad70BD074295D44C5
+   > balance:             19.24202006246709665
+   > gas used:            2528536 (0x269518)
+   > gas price:           2.500000009 gwei
+   > value sent:          0 ETH
+   > total cost:          0.006321340022756824 ETH
+
+   Pausing for 2 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 10250447)
+   > confirmation number: 2 (block: 10250448)
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:     0.006321340022756824 ETH
+
+Summary
+=======
+> Total deployments:   2
+> Final cost:          0.006941850025238864 ETH
+```
+
+YOur output should look similar to above if everything goes swell! As you can see this actually would have cost ETH, on the testnet our final ETH payment was: `0.006941850025238864 ETH`. If we would have deployed tens or hundreds of NFTs, you can see how the overall cost would have been much higher.
+
+We cna grab the `contract address` from here:
+
+```bash
+...
+2_setup_foxcon2022.js
+=====================
+
+   Deploying 'Foxcon2022'
+   ----------------------
+   > transaction hash:    0x9b17201cfc24bf9989ffc45e94c38e933a689eafaa12e79685952a109ceb1f1f
+   > Blocks: 1            Seconds: 12
+   > contract address:    0x0ea56cFFcAe68aeaDc1cB6688e1D51947e8E8712
+...
+```
+
+And we can go to the [OpenSea's Rinkeby Testnet](https://testnets.opensea.io) and navigate to:
+
+- Profile > My Collections
+- And click on the kebob menu
+
+![](./assets-readme/kebob-menu-1.png)
+
+THen we will select "Rinkeby" from the dropdown and past in our `contract address` value from above.
+
+We will then see our NFT Tickets project, and you might think that something has gone wrong as we do not see our images, but they will show up in a few minutes. So long as we got all of the linking right!
+
+![](./assets-readme/nfts-on-opensea-1.png)
+
+Let's go get a cup of coffee and come right back! Also at this point you can decide to delete your `.secret` file. For instance, if we want to deploy to mainnet using a different owner, we could do that. Just remember, never to share you secret passphrase or private keys ever.
+
+So a few minutes have gone by, (1 hour to be exact) and we can see our NFTs in all of their glory:
+
+![]()
