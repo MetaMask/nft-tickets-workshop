@@ -1,7 +1,7 @@
 { 
   "name": "Foxcon VIP 1001",
   "description": "Very Important Person ticket, attendee number 1001",
-  "image": "",
+  "image": "https://ipfs.io/ipfs/QmSyYogHVHSdxqXuvnitJRg3dbspeaJDznqZADLsfE6oxN",
   "properties": {
     "ticketType": "VIP", 
     "ticketNumber": 1001, 

@@ -1,7 +1,7 @@
 { 
   "name": "Foxcon GA 100s",
   "description": "General Admission ticket, attendee number 1003",
-  "image": "",
+  "image": "https://ipfs.io/ipfs/QmUJnmkAEBaFJYGQ7fyVt4HMm8mWSn2YqY4Dr1rEYY3vye",
   "properties": {
     "ticketType": "GA", 
     "ticketNumber": 1003, 

@@ -228,3 +228,63 @@ Now we cna use that address when generating our NFTs. As you might have guessed,
 ```
 
 As well we have updated the `_createTicket()` method to assign both `id` and `url` when we create each NFT Ticket.
+
+## Pinning IPFS data with Infura
+
+I have created an Infura account, it does require adding a credit card, but I am planning on using a Free account just for testing my project. Once I have setup an IPFS project inside Infura I will have access to a `projectId` and `projectSecret`. We will use these two values to pin our IPFS files using a terminal and [the IPFS API curl command](https://docs.infura.io/infura/networks/ipfs/getting-started/make-requests#use-curl):
+
+We will run the following command for each `image-*.png` file we have:
+
+```bash
+curl -X POST -F file=@image-1.png \
+-u "PROJECT_ID:PROJECT_SECRET" \
+"https://ipfs.infura.io:5001/api/v0/add"
+
+curl -X POST -F file=@image-2.png \
+-u "PROJECT_ID:PROJECT_SECRET" \
+"https://ipfs.infura.io:5001/api/v0/add"
+
+curl -X POST -F file=@image-3.png \
+-u "PROJECT_ID:PROJECT_SECRET" \
+"https://ipfs.infura.io:5001/api/v0/add"
+```
+
+At this point we will have each file hosted on IPFS and pinned by Infura for faster retrieval:
+
+![](./assets-readme/ipfs-infura-1.png)
+
+Now we can add that IPFS url for each image in our `metadata-*.json` files, here is the example for the first NFT TIcket metadata file, but do this for each one before we add them to Infura's IPFS and pinn them:
+
+```json
+{ 
+  "name": "Foxcon VIP 1001",
+  "description": "Very Important Person ticket, attendee number 1001",
+  "image": "https://ipfs.io/ipfs/QmSyYogHVHSdxqXuvnitJRg3dbspeaJDznqZADLsfE6oxN",
+  "properties": {
+    "ticketType": "VIP", 
+    "ticketNumber": 1001, 
+    "event": "Foxcon 2022",
+    "guests": 3
+  }
+}
+```
+
+We will run the following command for each `metadata-*.json` file we have:
+
+```bash
+curl -X POST -F file=@metadata-1.json \
+-u "PROJECT_ID:PROJECT_SECRET" \
+"https://ipfs.infura.io:5001/api/v0/add"
+
+curl -X POST -F file=@metadata-2.json \
+-u "PROJECT_ID:PROJECT_SECRET" \
+"https://ipfs.infura.io:5001/api/v0/add"
+
+curl -X POST -F file=@metadata-3.json \
+-u "PROJECT_ID:PROJECT_SECRET" \
+"https://ipfs.infura.io:5001/api/v0/add"
+```
+
+At this point we will have all six files hosted on IPFS and pinned by Infura for faster retrieval:
+
+![](./assets-readme/ipfs-infura-2.png)
