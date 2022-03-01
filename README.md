@@ -452,3 +452,14 @@ We will then see our NFT Tickets project, and you might think that something has
 ![](./assets-readme/nfts-on-opensea-1.png)
 
 At this point you can decide to delete your `.secret` file. For instance, if we want to deploy to mainnet using a different owner, we could do that. Just remember, never to share you secret passphrase or private keys ever.
+
+If you are not seeing your NFT artwork show up, you could refresh and/or wait a few minutes, but beyond that, you could debug your NFT to see if there are any issues using the following link:
+
+[https://testnets-api.opensea.io/asset/<your_contract_address>/<your_token_id>/validate/ ](https://testnets-api.opensea.io/asset/<contract_address>/<token_id>/validate/)
+
+Just add your `contract_address` from the deploy output and update the `token_id`. Here is an example of a valid and invalid result:
+
+- [VALID ASSET](https://testnets-api.opensea.io/asset/0xBA1c7B327EfAD20F439a06694adE3Cdc89690A29/3/validate/)
+- [INVALID ASSET](https://testnets-api.opensea.io/asset/0x0ea56cFFcAe68aeaDc1cB6688e1D51947e8E8712/3/validate/)
+
+This could help you track down if maybe you supplied the wrong IPFS file to represent your metadata or maybe if your NFT image URL was linked incorrectly. There are several places you could have gone wrong and that is the whole idea of testing your process out on a testnet first before deploying to a mainnet.
