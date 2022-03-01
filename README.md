@@ -120,7 +120,7 @@ contract Foxcon2022 is ERC721, ERC721URIStorage {
     constructor() ERC721("Foxcon2022", "FXC22") {}
 
     function _baseURI() internal pure override returns (string memory) {
-        return "https://ipfs.io/ipfs";
+        return "https://ipfs.io/ipfs/";
     }
 
     // The following functions are overrides required by Solidity.
@@ -164,16 +164,15 @@ Let's replace the current `constructor()` with this new version of it, plus an e
 
 ```ts
     constructor() ERC721("Foxcon2022", "FXC22") {
-      // _private method
       // (to: who owns it?, tokenId: what token is owned?)
-      _createTicket(msg.sender, 1, "");
-      _createTicket(msg.sender, 2, "");
-      _createTicket(msg.sender, 3, "");
-      // ^ generates 3 token NFTs that we can sell as tickets
+      _createTicket(msg.sender, 1, "QmcriZCeovxW61mYY6hNfYX1bmLh9gFUD294jhqUKkAUrk");
+      _createTicket(msg.sender, 2, "QmR84E5VLg8CuYyky6ufomShta3yaJTmbhfzArG7vAdvS6");
+      _createTicket(msg.sender, 3, "QmWUcWph126BHY6yV9hM8fFtdeitVbzqAihe2yZzMbeSvK");
     }
 
     function _createTicket(address to, uint id, string memory url) private returns(bool) {
       _safeMint(to, id);
+      _setTokenURI(id, url);
       return true;
     }
 ```
@@ -452,8 +451,4 @@ We will then see our NFT Tickets project, and you might think that something has
 
 ![](./assets-readme/nfts-on-opensea-1.png)
 
-Let's go get a cup of coffee and come right back! Also at this point you can decide to delete your `.secret` file. For instance, if we want to deploy to mainnet using a different owner, we could do that. Just remember, never to share you secret passphrase or private keys ever.
-
-So a few minutes have gone by, (1 hour to be exact) and we can see our NFTs in all of their glory:
-
-![]()
+At this point you can decide to delete your `.secret` file. For instance, if we want to deploy to mainnet using a different owner, we could do that. Just remember, never to share you secret passphrase or private keys ever.
