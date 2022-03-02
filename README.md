@@ -495,12 +495,12 @@ import Foxcon2022 from './Foxcon2022.json'
 let web3 = new Web3(process.env.REACT_APP_INFURA_ENDPOINT)
 
 const contractAddress = process.env.REACT_APP_NFT_CONTRACT_ADDRESS
-const contract = new web3.eth.Contract(Planetary.abi, contractAddress)
+const contract = new web3.eth.Contract(Foxcon2022.abi, contractAddress)
 
 export { web3, contract, contractAddress }
 ```
 
-We will also create a script to copy our JSON RPC created from our contract build that we get when we run `truffle compile` or `truffle migrate`.
+We will also create a script to copy our "Application Binary Interface (ABI)" created from our contract build that we get when we run `truffle compile` or `truffle migrate`.
 
 **copyJson.js**
 ```js
