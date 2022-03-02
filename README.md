@@ -463,3 +463,81 @@ Just add your `contract_address` from the deploy output and update the `token_id
 - [INVALID ASSET](https://testnets-api.opensea.io/asset/0x0ea56cFFcAe68aeaDc1cB6688e1D51947e8E8712/3/validate/)
 
 This could help you track down if maybe you supplied the wrong IPFS file to represent your metadata or maybe if your NFT image URL was linked incorrectly. There are several places you could have gone wrong and that is the whole idea of testing your process out on a testnet first before deploying to a mainnet.
+
+If we look at the description, properties, levels and details of our NFT on OpenSea, we can see our `metadata-1.json` at work:
+
+![](./assets-readme/nft-details-1.png)
+
+## Connect to our Contract in React
+
+We will need to create a `.env` file to store some of our project data, a little less sensitive than our wallet passphrase, and for this reason we will put all other project config data in environment variables:
+
+```bash
+REACT_APP_INFURA_ENDPOINT=https://rinkeby.infura.io/v3/4b9789bfd31b46fd9df6934461cfbe52
+REACT_APP_NFT_CONTRACT_ADDRESS=0xBA1c7B327EfAD20F439a06694adE3Cdc89690A29
+```
+
+In Create React App, anything placed in these files with the `REACT_APP_` prefix will be available will be defined for us on `process.env`. 
+
+First we need to install Web3JS to to connect to our contract via our Infura Project:
+
+```bash
+npm i web3 npc
+```
+
+Let's make a `src/lib` directory in our project and import `Foxcon2022` contract and export out the values we need:
+
+**src/lib/web3.js**
+```js
+import Web3 from 'web3'
+import Foxcon2022 from './Foxcon2022.json'
+
+let web3 = new Web3(process.env.REACT_APP_INFURA_ENDPOINT)
+
+const contractAddress = process.env.REACT_APP_NFT_CONTRACT_ADDRESS
+const contract = new web3.eth.Contract(Planetary.abi, contractAddress)
+
+export { web3, contract, contractAddress }
+```
+
+We will also create a script to copy our JSON RPC created from our contract build that we get when we run `truffle compile` or `truffle migrate`.
+
+**copyJson.js**
+```js
+let path = require('path');
+let ncp = require('ncp').ncp;
+
+ncp.limit = 16;
+
+let srcPath = 'build/contracts/Foxcon2022.json'
+let destPath = 'src/lib/Foxcon2022.json'
+
+console.log('Copying Contract JSON files...');
+ncp(srcPath, destPath, function (err) {
+  if (err) {
+    console.log('copy error...');
+    return console.error(err);
+  }
+  console.log('copy complete...');
+});
+```
+
+Finally in this step, we will also add our script by itself in the `package.json` as well as a prerequisite to our `npm start` script:
+
+**package.json**
+```
+  "scripts": {
+    "start": "node copyJson.js && react-scripts start",
+    "build": "react-scripts builds",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "copy": "node copyJson.js"
+  },
+```
+
+
+
+## Resources
+
+[Deploy Your Own NFT with Infura, ConsenSys NFT and Replit - Kristofer Shinn](https://www.youtube.com/watch?v=kim7T4GDFOM)
+[ETH Denver 2022 Infura NFT Slides](https://docs.google.com/presentation/d/e/2PACX-1vRmrW8raDcXbRvOl3aRn1R95wpLRUyILqI86EFpEZj8BKz_bCajBYk79uUGyfaKzqFf_YOZ4XeBjuPS/pub?start=false&loop=false&delayms=30000&slide=id.ga7c7e0fb3e_7_0)
