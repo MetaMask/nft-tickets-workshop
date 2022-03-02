@@ -539,5 +539,6 @@ Finally in this step, we will also add our script by itself in the `package.json
 
 ## Resources
 
-[Deploy Your Own NFT with Infura, ConsenSys NFT and Replit - Kristofer Shinn](https://www.youtube.com/watch?v=kim7T4GDFOM)
+[ETH Denver - Deploy Your Own NFT with Infura, ConsenSys NFT and Replit - Kristofer Shinn](https://www.youtube.com/watch?v=kim7T4GDFOM)
 [ETH Denver 2022 Infura NFT Slides](https://docs.google.com/presentation/d/e/2PACX-1vRmrW8raDcXbRvOl3aRn1R95wpLRUyILqI86EFpEZj8BKz_bCajBYk79uUGyfaKzqFf_YOZ4XeBjuPS/pub?start=false&loop=false&delayms=30000&slide=id.ga7c7e0fb3e_7_0)
+[ETH Denver - Infura Demo](https://www.youtube.com/watch?v=OPtt2SiQ4qk)
