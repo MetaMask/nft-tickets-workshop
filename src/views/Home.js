@@ -8,8 +8,12 @@ import Tickets from '../components/templates/Tickets'
 // import TicketDetails from '../components/templates/TicketDetails'
 
 const Home = () => {
-  const { foxcon2022, user, chainId } = useContext(ViewContext)
-  const { address } = user
+  const { 
+    foxcon2022, 
+    // user, 
+    // chainId 
+  } = useContext(ViewContext)
+  // const { address } = user
   const [nfts, setNfts] = useState([])
 
   const getTokenJsonById = async (id) => {
@@ -20,7 +24,7 @@ const Home = () => {
     return tokenResult
   }
 
-  const getNftArray = async () => {
+  const buildNftArray = async () => {
     const totalSupply = (await foxcon2022.totalSupply()).toNumber()
     var nfts = []
     for (let i = 1; i <= totalSupply; i++) {
@@ -32,7 +36,7 @@ const Home = () => {
 
   useEffect(() => {
     if (foxcon2022) {
-      getNftArray()
+      buildNftArray()
     }
   }, [foxcon2022])
 
