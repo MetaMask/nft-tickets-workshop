@@ -22,6 +22,9 @@ export const ViewProvider = ({ children }) => {
   const [state, dispatch] = useImmerReducer(reducer, initialState)
   const foxcon2022Address = process.env.REACT_APP_CONTRACT_ADDRESS
 
+  console.log(`foxcon2022Address`)
+  console.log(foxcon2022Address)
+
   const setAccount = useCallback(async (accounts) => {
     if (accounts.length > 0) {
       try {
@@ -43,7 +46,8 @@ export const ViewProvider = ({ children }) => {
       if (provider) {
         const signer = await provider.getSigner()
         const { name, chainId } = await provider.getNetwork()
-        const foxcon2022 = new ethers.Contract(foxcon2022Address, foxcon2022Abi.abi, signer)
+        const foxcon2022 = new ethers.Contract(foxcon2022Address, foxcon2022Abi.abi, provider)
+        const foxcon2022WithSigner = foxcon2022.connect(signer);
         const accounts = await window.ethereum.request({ method: 'eth_accounts' })
         setAccount(accounts)
         dispatch({
@@ -53,7 +57,8 @@ export const ViewProvider = ({ children }) => {
             signer,
             chainId,
             name,
-            foxcon2022
+            foxcon2022,
+            foxcon2022WithSigner
           }
         })
       }
@@ -77,7 +82,7 @@ export const ViewProvider = ({ children }) => {
     }
   }, [connectUser, dispatch])
 
-  const { foxcon2022, isConnected, name, chainId, provider, user } = state
+  const { foxcon2022, foxcon2022WithSigner, isConnected, name, chainId, provider, user } = state
 
   const connect = async () => {
     try {
@@ -94,6 +99,7 @@ export const ViewProvider = ({ children }) => {
         state,
         dispatch,
         foxcon2022,
+        foxcon2022WithSigner,
         isConnected,
         provider,
         user,

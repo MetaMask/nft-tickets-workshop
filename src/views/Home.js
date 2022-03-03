@@ -1,18 +1,46 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import { ViewContext } from '../context/ViewProvider'
-
 
 import GlobalStyles from '../theme/GlobalStyles'
 import { HashRouter, Route, Routes, Link } from 'react-router-dom'
 import Tickets from '../components/templates/Tickets'
-// import TicketDetails from '../components/templates/TicketDetails' 
+// import TicketDetails from '../components/templates/TicketDetails'
 
 const Home = () => {
   const { foxcon2022, user, chainId } = useContext(ViewContext)
   const { address } = user
+  const [nfts, setNfts] = useState([])
 
-  console.log(foxcon2022)
+  const getTokenJsonById = async (id) => {
+    let tokenUrl = await foxcon2022.tokenURI(id)
+    let tokenResult = await fetch(tokenUrl)
+      .then(res => res.json())
+
+    return tokenResult
+  }
+
+  const getNftArray = async () => {
+    const totalSupply = (await foxcon2022.totalSupply()).toNumber()
+    var nfts = []
+    for (let i = 1; i <= totalSupply; i++) {
+      let tokenResult = await getTokenJsonById(i)
+      nfts.push(tokenResult)
+    }
+    setNfts(nfts)
+  }
+
+  useEffect(() => {
+    if (foxcon2022) {
+      getNftArray()
+    }
+  }, [foxcon2022])
+
+  let listItems = nfts.map((nft, i) => 
+    <li key={`nft${i}`}>
+      <Link to={`/ticketDetail/${i+1}`}>NFT {nft.properties.ticketNumber}</Link>
+    </li>
+  )
 
   return (
     <HashRouter>
@@ -21,11 +49,7 @@ const Home = () => {
         <div>header</div>
       </header>
       <nav>
-        <ul>
-          <li><Link to="/ticketDetail/1">NFT 1001</Link></li>
-          <li><Link to="/ticketDetail/2">NFT 1002</Link></li>
-          <li><Link to="/ticketDetail/3">NFT 1003</Link></li>
-        </ul>
+        <ul>{listItems}</ul>
       </nav>
       <main>
         <div>

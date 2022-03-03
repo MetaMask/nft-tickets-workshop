@@ -163,6 +163,7 @@ We want to set these tickets up so that when they are initially created, that we
 Let's replace the current `constructor()` with this new version of it, plus an extra solidity function to create eac of our NFT Tickets:
 
 ```ts
+    uint256 _myTotalSupply = 0;
     constructor() ERC721("Foxcon2022", "FXC22") {
       // (to: who owns it?, tokenId: what token is owned?)
       _createTicket(msg.sender, 1, "QmcriZCeovxW61mYY6hNfYX1bmLh9gFUD294jhqUKkAUrk");
@@ -173,7 +174,12 @@ Let's replace the current `constructor()` with this new version of it, plus an e
     function _createTicket(address to, uint id, string memory url) private returns(bool) {
       _safeMint(to, id);
       _setTokenURI(id, url);
+      _myTotalSupply++;
       return true;
+    }
+
+    function totalSupply() view public returns(uint256) {
+      return _myTotalSupply;
     }
 ```
 
@@ -235,6 +241,18 @@ I have created an Infura account, it does require adding a credit card, but I am
 We will run the following command for each `image-*.png` file we have, do this from the `nft-ticket-data` directory:
 
 ```bash
+curl -X POST -F file=@image-0.png \
+-u "PROJECT_ID:PROJECT_SECRET" \
+"https://ipfs.infura.io:5001/api/v0/add"
+
+curl -X POST -F file=@banner-0.png \
+-u "PROJECT_ID:PROJECT_SECRET" \
+"https://ipfs.infura.io:5001/api/v0/add"
+
+curl -X POST -F file=@featured-0.png \
+-u "PROJECT_ID:PROJECT_SECRET" \
+"https://ipfs.infura.io:5001/api/v0/add"
+
 curl -X POST -F file=@image-1.png \
 -u "PROJECT_ID:PROJECT_SECRET" \
 "https://ipfs.infura.io:5001/api/v0/add"
@@ -273,6 +291,10 @@ Now we can add that IPFS url for each image in our `metadata-*.json` files, here
 We will run the following command for each `metadata-*.json` file we have, do this from the `nft-ticket-data` directory:
 
 ```bash
+curl -X POST -F file=@metadata-0.json \
+-u "PROJECT_ID:PROJECT_SECRET" \
+"https://ipfs.infura.io:5001/api/v0/add"
+
 curl -X POST -F file=@metadata-1.json \
 -u "PROJECT_ID:PROJECT_SECRET" \
 "https://ipfs.infura.io:5001/api/v0/add"
@@ -326,7 +348,6 @@ rinkeby: {
   from: 'PUBLIC_WALLET_ADDRESS', // Public wallet address
   network_id: 4,       // rinkeby's id
   gas: 5500000,        // rinkeby has a lower block limit than mainnet
-  confirmations: 2,    // # of confs to wait between deployments. (default: 0)
   timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
   skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
 },
