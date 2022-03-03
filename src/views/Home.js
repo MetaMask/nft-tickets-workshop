@@ -40,25 +40,17 @@ const Home = () => {
     }
   }, [foxcon2022])
 
-  let listItems = nfts.map((nft, i) => 
-    <li key={`nft${i}`}>
-      <Link to={`/ticketDetail/${i+1}`}>NFT {nft.properties.ticketNumber}</Link>
-    </li>
-  )
-
   return (
     <HashRouter>
       <GlobalStyles />
       <header>
         <div>header</div>
       </header>
-      <nav>
-        <ul>{listItems}</ul>
-      </nav>
+      {/* <nav></nav> */}
       <main>
         <div>
           <Routes>
-            <Route path="/" exact element={<Tickets />} />
+            <Route path="/" exact element={<Tickets nfts={nfts}/>} />
             {/* <Route path="/ticketDetail/:tokenId" element={<TicketDetails />} /> */}
           </Routes>
         </div>
