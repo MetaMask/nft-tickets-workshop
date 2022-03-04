@@ -27,7 +27,7 @@ const Tickets = ({nfts}) => {
 
   let nftGrid = nfts.map((nft, i) => 
     <NftCard key={`nft${i}`}>
-      <Link to={`/ticketDetail/${i+1}`}>
+      <Link to={`/${nft.properties.ticketNumber}`}>
         <img width="200" height={"200"} src={nft.image} />
         <NftCollName>Foxcon2022</NftCollName>
         <NftName>{nft.name}</NftName>

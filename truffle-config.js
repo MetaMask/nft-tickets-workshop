@@ -59,7 +59,7 @@ module.exports = {
     // NB: It's important to wrap the provider as a function.
     rinkeby: {
       provider: () => new HDWalletProvider(
-        mnemonic, `https://rinkeby.infura.io/v3/94b43c65455a49798f92e7d68f1c64db`
+        mnemonic, `https://rinkeby.infura.io/v3/43c89c562a4746718f46d8cbb28d4e17`
       ),
       from: '0x568820334111ba2a37611F9Ad70BD074295D44C5', // Public wallet address
       network_id: 4,       // rinkeby's id
