@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { ViewContext } from '../../context/ViewProvider'
+import { useParams } from 'react-router-dom'
 
 const TicketDetails = ({ nft }) => {
-
+  let { tokenId } = useParams()
   const { user } = useContext(ViewContext)
   const { address } = user
 
@@ -14,12 +15,8 @@ const TicketDetails = ({ nft }) => {
   margin: 8px;
 `
 
-  const NftCollName = styled.div`
+const NftCollName = styled.div`
   padding: 8px;
-`
-
-  const NftName = styled.div`
-  font-weight: 600;
 `
 
 const InnerCont = styled.div`
@@ -33,6 +30,10 @@ const InnerCont = styled.div`
   }
 `
 
+const NftName = styled.div`
+  font-weight: 600;
+`
+
   return (
     <div className="TicketDetails">
       <NftCard>
@@ -42,7 +43,7 @@ const InnerCont = styled.div`
           <NftName>{nft.name}</NftName>
           {
             address
-              ? <button>BUY NFT</button>
+              ? <a href={`https://testnets.opensea.io/assets/${process.env.REACT_APP_CONTRACT_ADDRESS}/${tokenId}`}>View on OpenSea</a>
               : null
           }
         </InnerCont>

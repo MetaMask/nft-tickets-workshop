@@ -67,7 +67,7 @@ const Home = () => {
         </div>
       </main>
       <footer>
-        <div>footer</div>
+        <div>Foxcon2022</div>
       </footer>
     </HashRouter>
   )

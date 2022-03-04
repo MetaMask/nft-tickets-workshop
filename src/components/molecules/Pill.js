@@ -1,6 +1,4 @@
 import React, { useContext } from "react";
-import { lighten } from 'polished'
-import Jazzicon, { jsNumberForAddress } from "react-jazzicon"
 import styled from "styled-components";
 
 import { ViewContext } from '../../context/ViewProvider'
@@ -20,21 +18,6 @@ const Wrap = styled.div`
   }
 `
 
-const JazziconWrap = styled.div`
-  border: 1px solid ${lighten(0.5, '#16171d')};
-  border-radius: 50%;
-  height: 20px;
-  margin: 0 .5rem;
-  overflow: hidden;
-  padding: 2px;
-  width: 20px;
-  > img {
-    border-radius: 50%;
-    height: 20px;
-    width: 20px;
-  }
-`
-
 const Pill = () => {
   const { user } = useContext(ViewContext)
   const { address } = user
@@ -44,9 +27,6 @@ const Pill = () => {
 
   return (
     <Wrap>
-      <JazziconWrap>
-        <Jazzicon diameter={20} seed={jsNumberForAddress(address)} />
-      </JazziconWrap>
       <p>{formatAddress(address)}</p>
     </Wrap>
   );
