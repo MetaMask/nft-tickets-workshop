@@ -1,6 +1,4 @@
-import { 
-  lighten, // cover 
-} from 'polished'
+import { lighten } from 'polished'
 import { createGlobalStyle } from 'styled-components'
 
 // import { COLORS } from './ColorPalette'
@@ -12,6 +10,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
+    font-family: 'Space Mono', monospace;
     margin: 0;
     padding: 0;
     position: relative;
@@ -216,9 +215,22 @@ const GlobalStyles = createGlobalStyle`
   }
 
   button {
+    display: flex;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+    padding: 0em 1.5em;
+    cursor: pointer;
+    border-radius: 50px;
+    border: 3px solid #E2761B;
+    img { height: 40px; width: 40px; margin-right: 10px; }
     background-color: ${lighten(0.075, '#16171c')};
-    color: #000;
+    color: #FFF;
     font-size: 1em;
+    p {
+      color: #FFF;
+    }
     &:disabled {
       cursor: not-allowed;
       user-select: none;

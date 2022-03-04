@@ -1,6 +1,11 @@
+import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { ViewContext } from '../../context/ViewProvider'
 
 const TicketDetails = ({ nft }) => {
+
+  const { user } = useContext(ViewContext)
+  const { address } = user
 
   const NftCard = styled.div`
   height: 390px;
@@ -35,7 +40,11 @@ const InnerCont = styled.div`
         <NftCollName>Foxcon2022</NftCollName>
         <InnerCont>
           <NftName>{nft.name}</NftName>
-          <button>BUY NFT</button>
+          {
+            address
+              ? <button>BUY NFT</button>
+              : null
+          }
         </InnerCont>
       </NftCard>
     </div>

@@ -22,9 +22,6 @@ export const ViewProvider = ({ children }) => {
   const [state, dispatch] = useImmerReducer(reducer, initialState)
   const foxcon2022Address = process.env.REACT_APP_CONTRACT_ADDRESS
 
-  console.log(`foxcon2022Address`)
-  console.log(foxcon2022Address)
-
   const setAccount = useCallback(async (accounts) => {
     if (accounts.length > 0) {
       try {
