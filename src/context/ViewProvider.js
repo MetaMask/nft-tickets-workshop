@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useCallback } from 'react'
+import { createContext, useEffect, useCallback } from 'react'
 import { useImmerReducer } from 'use-immer'
 import { ethers } from 'ethers'
 
@@ -41,21 +41,17 @@ export const ViewProvider = ({ children }) => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       if (provider) {
-        const signer = await provider.getSigner()
         const { name, chainId } = await provider.getNetwork()
         const foxcon2022 = new ethers.Contract(foxcon2022Address, foxcon2022Abi.abi, provider)
-        const foxcon2022WithSigner = foxcon2022.connect(signer);
         const accounts = await window.ethereum.request({ method: 'eth_accounts' })
         setAccount(accounts)
         dispatch({
           type: 'CONNECTED_PROVIDER',
           payload: {
             provider,
-            signer,
             chainId,
             name,
-            foxcon2022,
-            foxcon2022WithSigner
+            foxcon2022
           }
         })
       }
@@ -79,7 +75,7 @@ export const ViewProvider = ({ children }) => {
     }
   }, [connectUser, dispatch])
 
-  const { foxcon2022, foxcon2022WithSigner, isConnected, name, chainId, provider, user } = state
+  const { foxcon2022, isConnected, name, chainId, provider, user } = state
 
   const connect = async () => {
     try {
@@ -96,7 +92,6 @@ export const ViewProvider = ({ children }) => {
         state,
         dispatch,
         foxcon2022,
-        foxcon2022WithSigner,
         isConnected,
         provider,
         user,

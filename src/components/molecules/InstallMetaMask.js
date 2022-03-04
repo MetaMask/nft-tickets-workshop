@@ -1,8 +1,6 @@
-import React from "react";
-
-import metaMask from "../../assets/metamask.svg";
-import Button from "../atoms/Button";
-import Link from "../atoms/Link";
+import metaMask from '../../assets/metamask.svg'
+import Button from '../atoms/Button'
+import Link from '../atoms/Link'
 
 const InstallMetaMask = () => {
   return (
@@ -12,7 +10,7 @@ const InstallMetaMask = () => {
         <p>Install MetaMask</p>
       </Button>
     </Link>
-  );
-};
+  )
+}
 
-export default InstallMetaMask;
+export default InstallMetaMask

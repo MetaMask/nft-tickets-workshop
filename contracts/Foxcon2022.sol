@@ -8,9 +8,9 @@ contract Foxcon2022 is ERC721, ERC721URIStorage {
     uint256 _myTotalSupply = 0;
     constructor() ERC721("Foxcon2022", "FXC22") {
       // (to: who owns it?, tokenId: what token is owned?)
-      _createTicket(msg.sender, 1, "QmcriZCeovxW61mYY6hNfYX1bmLh9gFUD294jhqUKkAUrk");
-      _createTicket(msg.sender, 2, "QmR84E5VLg8CuYyky6ufomShta3yaJTmbhfzArG7vAdvS6");
-      _createTicket(msg.sender, 3, "QmWUcWph126BHY6yV9hM8fFtdeitVbzqAihe2yZzMbeSvK");
+      _createTicket(msg.sender, 1001, "QmcriZCeovxW61mYY6hNfYX1bmLh9gFUD294jhqUKkAUrk");
+      _createTicket(msg.sender, 1002, "QmR84E5VLg8CuYyky6ufomShta3yaJTmbhfzArG7vAdvS6");
+      _createTicket(msg.sender, 1003, "QmWUcWph126BHY6yV9hM8fFtdeitVbzqAihe2yZzMbeSvK");
     }
 
     function contractURI() public pure returns (string memory) {

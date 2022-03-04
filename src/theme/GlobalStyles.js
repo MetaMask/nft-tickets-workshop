@@ -110,10 +110,6 @@ const GlobalStyles = createGlobalStyle`
     z-index: 10;
     width: 100%;
     justify-self: stretch;
-    @media (min-width: 500px) {
-      display: grid;
-      place-items: center;
-    }
   }
 
   section {

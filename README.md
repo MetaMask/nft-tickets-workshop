@@ -58,6 +58,8 @@ This will add a config, a migrations contract, an actual migrations javascript f
 │   └── .gitkeep  
 ```
 
+Truffle requires you to have a Migrations contract in order to use the Migrations feature, this contract contains a specific interface and helps to keep track of addresses on the blockchain. This contract will be deployed as the first migration and won't be updated again. You will also receive this contract by default when creating a new project with `truffle init`.
+
 2. Next we will open up Ganache and create a New Workspace with the same name as our repo: `nft-tickets-workshop` and connect your project by selecting Add Project and navigating to the `truffle-config.js` file we just created in the root of our project. Finally click Save Workspace and we get get access to a local blockchain specific for our project.
 
 ![](./assets-readme/ganache-1.png)

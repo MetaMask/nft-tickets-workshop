@@ -39,7 +39,7 @@ const Tickets = ({nfts}) => {
       <Wrap>
         {nftGrid}
       </Wrap>
-    );
+    )
   }
   
   export default Tickets

@@ -1,15 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react'
-
-import { ViewContext } from '../context/ViewProvider'
-
-import GlobalStyles from '../theme/GlobalStyles'
+import { useContext, useEffect, useState } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
-import Tickets from '../components/templates/Tickets'
-import TicketDetails from '../components/templates/TicketDetails'
-import Pill from '../components/molecules/Pill'
+import { ViewContext } from '../context/ViewProvider'
+import GlobalStyles from '../theme/GlobalStyles'
 
+import Pill from '../components/molecules/Pill'
 import ConnectButton from "../components/molecules/ConnectButton"
 import InstallMetaMask from "../components/molecules/InstallMetaMask"
+
+import Tickets from '../components/templates/Tickets'
+import TicketDetails from '../components/templates/TicketDetails'
 
 const Home = () => {
   const { foxcon2022, user, chainId, actions } = useContext(ViewContext)
@@ -28,7 +27,7 @@ const Home = () => {
     const totalSupply = (await foxcon2022.totalSupply()).toNumber()
     var nfts = []
     for (let i = 1; i <= totalSupply; i++) {
-      let tokenResult = await getTokenJsonById(i)
+      let tokenResult = await getTokenJsonById(1000 + i)
       nfts.push(tokenResult)
     }
     setNfts(nfts)
@@ -44,7 +43,7 @@ const Home = () => {
     <HashRouter>
       <GlobalStyles />
       <header>
-        { address
+        {address
           ? <Pill />
           : window.ethereum
             ? <ConnectButton connect={actions.connect} />
@@ -55,15 +54,15 @@ const Home = () => {
         <div>
           <Routes>
             <Route path="/" exact element={<Tickets nfts={nfts} />} />
-            {nfts && nfts.map((nft, idx) => {
-              console.log(nft)
-              return (
-                <Route key={idx} element={<TicketDetails nft={nft} />}
-                  path={`/${nft.properties.ticketNumber}`}
-                />
-              )
-            })}
+            {nfts && nfts.map((nft, idx) =>
+              <Route key={idx} element={<TicketDetails nft={nft} />} path={`/${nft.properties.ticketNumber}`} />
+            )}
           </Routes>
+          {
+            chainId !== 4 
+              ? <span>Not Connected to Rinkeby Testnet</span> 
+              : null
+          }
         </div>
       </main>
       <footer>

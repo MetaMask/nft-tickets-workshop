@@ -16,11 +16,6 @@ export const reducer = (state, action) => {
         return
       }
 
-      case 'SET_LOADING': {
-        state.isLoading = action.payload
-        return
-      }
-
       case 'CONNECTED_NETWORK': {
         state.chainId = action.payload
         return
@@ -28,21 +23,6 @@ export const reducer = (state, action) => {
 
       case 'CONNECTED_SIGNER': {
         state.signer = action.payload
-        return
-      }
-
-      case 'REGISTERED': {
-        state.isRegistered = action.payload
-        return
-      }
-
-      case 'SET_CLAIMED': {
-        state.claimed = action.payload
-        return
-      }
-
-      case 'DISCONNECT_ACCOUNT': {
-        state = action.payload
         return
       }
 

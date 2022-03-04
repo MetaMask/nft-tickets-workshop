@@ -1,55 +1,54 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import styled from 'styled-components'
 import { ViewContext } from '../../context/ViewProvider'
-import { useParams } from 'react-router-dom'
 
 const TicketDetails = ({ nft }) => {
-  let { tokenId } = useParams()
   const { user } = useContext(ViewContext)
   const { address } = user
 
   const NftCard = styled.div`
-  height: 390px;
-  border-radius: 12px;
-  border: 1px solid #cfcfcf;
-  margin: 8px;
-`
+    width: 360px;
+    height: 460px;
+    border-radius: 12px;
+    border: 1px solid #cfcfcf;
+    margin: 8px;
+  `
 
-const NftCollName = styled.div`
-  padding: 8px;
-`
+  const NftCollName = styled.div`
+    padding: 8px;
+  `
 
-const InnerCont = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 8px;
-  color: #222;
-  button {
-    background-color: #FFF;
-    color: inherit;
-  }
-`
+  const InnerCont = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    color: #222;
+    button {
+      background-color: #FFF;
+      color: inherit;
+    }
+  `
 
-const NftName = styled.div`
-  font-weight: 600;
-`
+  const NftName = styled.div`
+    font-weight: 600;
+  `
 
   return (
-    <div className="TicketDetails">
-      <NftCard>
-        <img width="300" height={"300"} src={nft.image} />
-        <NftCollName>Foxcon2022</NftCollName>
-        <InnerCont>
-          <NftName>{nft.name}</NftName>
-          {
-            address
-              ? <a href={`https://testnets.opensea.io/assets/${process.env.REACT_APP_CONTRACT_ADDRESS}/${tokenId}`}>View on OpenSea</a>
-              : null
-          }
-        </InnerCont>
-      </NftCard>
-    </div>
-  );
+    <NftCard>
+      <img width="360" height="360" src={nft.image} />
+      <NftCollName>Foxcon2022</NftCollName>
+      <InnerCont>
+        <NftName>{nft.name}</NftName>
+        {
+          address
+            ? <a href={`https://testnets.opensea.io/assets/${process.env.REACT_APP_CONTRACT_ADDRESS}/${nft.properties.ticketNumber}`}>
+                View on OpenSea
+              </a>
+            : null
+        }
+      </InnerCont>
+    </NftCard>
+  )
 }
 
 export default TicketDetails

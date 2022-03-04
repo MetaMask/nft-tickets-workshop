@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import styled from "styled-components";
+import { useContext } from 'react'
+import styled from 'styled-components'
 
 import { ViewContext } from '../../context/ViewProvider'
 
@@ -22,14 +22,14 @@ const Pill = () => {
   const { user } = useContext(ViewContext)
   const { address } = user
   const formatAddress = (addr) => {
-    return `${addr.substr(0, 6)}...${addr.substr(-4)}`;
-  };
+    return `${addr.substr(0, 6)}...${addr.substr(-4)}`
+  }
 
   return (
     <Wrap>
       <p>{formatAddress(address)}</p>
     </Wrap>
-  );
-};
+  )
+}
 
-export default Pill;
+export default Pill
