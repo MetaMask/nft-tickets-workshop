@@ -4,8 +4,9 @@ import { ViewContext } from '../context/ViewProvider'
 import GlobalStyles from '../theme/GlobalStyles'
 
 import Pill from '../components/molecules/Pill'
-import ConnectButton from "../components/molecules/ConnectButton"
-import InstallMetaMask from "../components/molecules/InstallMetaMask"
+import ConnectButton from '../components/molecules/ConnectButton'
+import InstallMetaMask from '../components/molecules/InstallMetaMask'
+import NetworkButton from '../components/molecules/NetworkButton'
 
 import Tickets from '../components/templates/Tickets'
 import TicketDetails from '../components/templates/TicketDetails'
@@ -34,7 +35,7 @@ const Home = () => {
   }
 
   useEffect(() => {
-    if (foxcon2022) {
+    if (foxcon2022 && chainId === 4) {
       buildNftArray()
     }
   }, [foxcon2022])
@@ -43,11 +44,13 @@ const Home = () => {
     <HashRouter>
       <GlobalStyles />
       <header>
-        {address
-          ? <Pill />
-          : window.ethereum
-            ? <ConnectButton connect={actions.connect} />
-            : <InstallMetaMask />
+        { chainId && chainId !== 4
+          ? <NetworkButton />
+          : address
+            ? <Pill />
+            : window.ethereum
+              ? <ConnectButton connect={actions.connect} />
+              : <InstallMetaMask />
         }
       </header>
       <main>
