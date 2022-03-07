@@ -24,10 +24,10 @@
           <text x="445.772px" y="205.594px" style="font-family:'BalooDa2-ExtraBold', 'Baloo Da 2';font-weight:800;font-size:35px;fill:#FF9200;">#1002</text>
         </g>
         <g id="eventTypeText" transform="matrix(0.955615,0,0,0.891404,95.3799,-63.3668)">
-          <text x="31.875px" y="238.418px" style="font-family:'BalooDa2-Regular', 'Baloo Da 2';font-size:30px;fill:#FFF;">GA</text>
+          <text x="31.875px" y="238.418px" style="font-family:'BalooDa2-Regular', 'Baloo Da 2';font-size:29px;fill:#FFF;">GA</text>
         </g>
         <g id="dateText" transform="matrix(0.955615,0,0,0.891404,-10.8904,-63.3668)">
-          <text x="31.875px" y="238.418px" style="font-family:'BalooDa2-Regular', 'Baloo Da 2';font-size:30px;fill:#FFF;">10 DEC</text>
+          <text x="31.875px" y="238.418px" style="font-family:'BalooDa2-Regular', 'Baloo Da 2';font-size:29px;fill:#FFF;">10 DEC</text>
         </g>
         <g id="outline" transform="matrix(1,0,0,1,0,10)">
           <path d="M113.947,111.81L113.947,144.83L116.435,144.83L116.435,111.81L280,111.81L280,109.323L20,109.323L20,111.81L113.947,111.81Z" style="fill:#FFF;"/>
