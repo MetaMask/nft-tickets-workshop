@@ -57,9 +57,19 @@ module.exports = {
     // },
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
+    polygon: {
+      provider: () => new HDWalletProvider(
+        mnemonic, `wss://polygon-mumbai.infura.io/ws/v3/250dcda6dc6249e1affbe4ffa016b675`
+      ),
+      from: '0x568820334111ba2a37611F9Ad70BD074295D44C5', // Public wallet address
+      network_id: 80001,   // rinkeby's id
+      gas: 5500000,        // rinkeby has a lower block limit than mainnet
+      timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
+      skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
+    },
     rinkeby: {
       provider: () => new HDWalletProvider(
-        mnemonic, `https://rinkeby.infura.io/v3/43c89c562a4746718f46d8cbb28d4e17`
+        mnemonic, `wss://rinkeby.infura.io/ws/v3/250dcda6dc6249e1affbe4ffa016b675`
       ),
       from: '0x568820334111ba2a37611F9Ad70BD074295D44C5', // Public wallet address
       network_id: 4,       // rinkeby's id
