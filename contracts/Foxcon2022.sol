@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
@@ -18,7 +18,7 @@ import './HexStrings.sol';
   external: only external calls (not this contract)
 */
 
-contract Foxcon2022 is ERC721, Ownable {
+contract Foxcon2022 is ERC721Enumerable, Ownable {
   using Strings for uint256;
   using HexStrings for uint160;
   using Counters for Counters.Counter;
@@ -38,8 +38,22 @@ contract Foxcon2022 is ERC721, Ownable {
   mapping (uint256 => bytes3) public color;
   uint256 mintDeadline = block.timestamp + 24 hours;
 
-  function totalSupply() view public returns(uint256) {
-    return _myTotalSupply;
+  function totalSupply() view public override returns(uint256) {
+    return _myTotalSupply; // gas optimization (otherwise totalSupply() when mint)
+  }
+
+  /**
+    * @dev Returns the wallet of a given wallet. Mainly for ease for frontend devs.
+    * @param _wallet The wallet to get the tokens of. NEEDS ENUMERABLE
+  */
+  function walletOfOwner(address _wallet) public view returns (uint256[] memory) {
+    uint256 tokenCount = balanceOf(_wallet);
+
+    uint256[] memory tokensId = new uint256[](tokenCount);
+    for (uint256 i; i < tokenCount; i++) {
+      tokensId[i] = tokenOfOwnerByIndex(_wallet, i);
+    }
+    return tokensId;
   }
 
   function contractURI() public pure returns (string memory) {
@@ -69,9 +83,9 @@ contract Foxcon2022 is ERC721, Ownable {
   }
 
   modifier canMint() {
-    require(_myTotalSupply < MAX_SUPPLY, 'Purchase would exceed max supply of Tickets');
-    require(block.timestamp < mintDeadline, 'DONE MINTING');
-    require(vipTicketPrice == msg.value || gaTicketPrice == msg.value, "Ether value sent is not corect");
+    require(_myTotalSupply < MAX_SUPPLY, 'All tickets have been minted.');
+    require(block.timestamp < mintDeadline, 'Mintiing period has expired.');
+    require(vipTicketPrice == msg.value || gaTicketPrice == msg.value, "Ether value sent is not correct.");
     _; // Underscores used in function modifiers return and continue execution of the decorated function
   }
 
@@ -91,14 +105,13 @@ contract Foxcon2022 is ERC721, Ownable {
   function tokenURI(uint256 id) public view override returns (string memory) {
     require(_exists(id), "not exist");
     string memory name = string(abi.encodePacked('Ticket #', id.toString() ));
-    string memory description = string(abi.encodePacked('This is an NFT fool!'));
-    string memory image = Base64.encode(bytes(generateNftSvgByTokenId(id)));
+    string memory description = string(abi.encodePacked((vipTicketHolders[id] ? "VIP" : "General Admission"), ' access to Foxcon2022 on Dec, 10, 2022.'));
 
     bytes memory tokenJsonString = bytes(abi.encodePacked(
       '{"name":"', name, '","description":"',description,'",', //'"external_url":"https://dappblitz.eth/', id.toString(), '.svg",', 
       '"attributes":[{"trait_type":"Ticket Type", "value":"', (vipTicketHolders[id] ? "VIP" : "GA"),  '"}],',
       '"owner":"', (uint160(ownerOf(id))).toHexString(20),'",',
-      '"image":"data:image/svg+xml;base64,',image,'"}'
+      '"image":',generateNftSvgByTokenId(id),'}'
     ));
 
     return string(
@@ -109,16 +122,18 @@ contract Foxcon2022 is ERC721, Ownable {
     );
   }
 
-  function generateNftSvgByTokenId(uint256 id) internal view returns (string memory) {
+  function generateNftSvgByTokenId(uint256 id) public view returns (string memory) {
     return string(abi.encodePacked(
-      '<svg preserveAspectRatio="xMinYMin meet" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;user-select: none;">',
-        renderNftSvgBottomById(id),
-        renderNftSvgTopById(id),
-        '<style>.s1{font-family:"BalooDa2-ExtraBold";} .s4{font-family:"BalooDa2-Regular";} .s3{font-size:108px;} .s5{fill:#FFF;} .s2{fill:#FF9200;} .s6{fill:#3C3C3C;} .s7{fill:#532775;}</style>',
-      '</svg>'
-    ));
+      'data:image/svg+xml;base64',
+      Base64.encode(bytes(abi.encodePacked(
+        '<svg preserveAspectRatio="xMinYMin meet" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;user-select: none;">',
+          renderNftSvgBottomById(id),
+          renderNftSvgTopById(id),
+          '<style>.s1{font-family:"BalooDa2-ExtraBold";} .s4{font-family:"BalooDa2-Regular";} .s3{font-size:108px;} .s5{fill:#FFF;} .s2{fill:#FF9200;} .s6{fill:#3C3C3C;} .s7{fill:#532775;}</style>',
+        '</svg>'
+      ))
+    )));
   }
-
   function renderNftSvgTopById(uint256 id) internal view returns (string memory) {
     return string(abi.encodePacked(
       '<g id="top" transform="matrix(0.99784,0,0,1,2.87767e-18,0)"><path class="',(vipTicketHolders[id] ? "s6" : "s7"), '" d="M30,200L20,200C20,188.962 11.038,180 0,180L0,15.368C0,6.886 6.886,0 15.368,0L285.281,0C293.763,0 300.649,6.886 300.649,15.368L300.649,180.033L300,180C288.962,180 280,188.962 280,200L270,200L270,199L264.99,199L264.99,200L260.981,200L260.981,199L255.971,199L255.971,200L251.962,200L251.962,199L246.952,199L246.952,200L242.944,200L242.944,199L237.933,199L237.933,200L233.925,200L233.925,199L228.914,199L228.914,200L224.906,200L224.906,199L219.896,199L219.896,200L215.887,200L215.887,199L210.877,199L210.877,200L206.367,200L206.367,199L201.357,199L201.357,200L197.349,200L197.349,199L192.338,199L192.338,200L188.33,200L188.33,199L183.319,199L183.319,200L179.311,200L179.311,199L174.301,199L174.301,200L170.292,200L170.292,199L165.282,199L165.282,200L161.273,200L161.273,199L156.263,199L156.263,200L152.255,200L152.255,199L147.244,199L147.244,200L143.236,200L143.236,199L138.225,199L138.225,200L134.217,200L134.217,199L129.207,199L129.207,200L125.198,200L125.198,199L120.188,199L120.188,200L116.18,200L116.18,199L111.169,199L111.169,200L107.161,200L107.161,199L102.15,199L102.15,200L98.142,200L98.142,199L93.132,199L93.132,200L89.123,200L89.123,199L84.113,199L84.113,200L80.104,200L80.104,199L75.094,199L75.094,200L71.086,200L71.086,199L66.075,199L66.075,200L62.067,200L62.067,199L57.056,199L57.056,200L53.048,200L53.048,199L48.038,199L48.038,200L44.029,200L44.029,199L39.019,199L39.019,200L35.01,200L35.01,199L30,199L30,200Z" /></g>',
@@ -127,7 +142,6 @@ contract Foxcon2022 is ERC721, Ownable {
       '<g id="event" transform="matrix(1.06305,0,0,1.06305,-130.636,-63.8082)"><path id="01F" d="M142.518,87.342L173.881,87.342L173.881,98.119L154.373,98.119L154.373,119.136L169.678,119.136L169.678,129.914L154.373,129.914L154.373,162.786L142.518,162.786L142.518,87.342Z" class="s2" style="fill-rule:nonzero;"/><path id="02O" d="M196.73,163.864C190.91,163.864 186.455,162.212 183.366,158.906C180.276,155.601 178.731,150.931 178.731,144.895L178.731,105.233C178.731,99.197 180.276,94.527 183.366,91.222C186.455,87.916 190.91,86.264 196.73,86.264C202.55,86.264 207.005,87.916 210.095,91.222C213.184,94.527 214.729,99.197 214.729,105.233L214.729,144.895C214.729,150.931 213.184,155.601 210.095,158.906C207.005,162.212 202.55,163.864 196.73,163.864ZM196.73,153.086C200.826,153.086 202.873,150.607 202.873,145.65L202.873,104.478C202.873,99.521 200.826,97.042 196.73,97.042C192.634,97.042 190.587,99.521 190.587,104.478L190.587,145.65C190.587,150.607 192.634,153.086 196.73,153.086Z" class="s2" style="fill-rule:nonzero;"/><path id="03X" d="M231.435,124.202L218.393,87.342L230.896,87.342L238.871,111.7L239.087,111.7L247.278,87.342L258.487,87.342L245.446,124.202L259.134,162.786L246.631,162.786L238.009,136.489L237.794,136.489L228.956,162.786L217.747,162.786L231.435,124.202Z" class="s2" style="fill-rule:nonzero;"/><path id="04C" d="M279.719,163.864C274.043,163.864 269.714,162.248 266.732,159.014C263.75,155.781 262.259,151.218 262.259,145.326L262.259,104.802C262.259,98.91 263.75,94.347 266.732,91.114C269.714,87.88 274.043,86.264 279.719,86.264C285.396,86.264 289.725,87.88 292.707,91.114C295.689,94.347 297.179,98.91 297.179,104.802L297.179,112.777L285.971,112.777L285.971,104.047C285.971,99.377 283.995,97.042 280.043,97.042C276.091,97.042 274.115,99.377 274.115,104.047L274.115,146.189C274.115,150.787 276.091,153.086 280.043,153.086C283.995,153.086 285.971,150.787 285.971,146.189L285.971,134.656L297.179,134.656L297.179,145.326C297.179,151.218 295.689,155.781 292.707,159.014C289.725,162.248 285.396,163.864 279.719,163.864Z" class="s2" style="fill-rule:nonzero;"/><path id="05O" d="M321.645,163.864C315.825,163.864 311.37,162.212 308.281,158.906C305.191,155.601 303.646,150.931 303.646,144.895L303.646,105.233C303.646,99.197 305.191,94.527 308.281,91.222C311.37,87.916 315.825,86.264 321.645,86.264C327.465,86.264 331.92,87.916 335.01,91.222C338.099,94.527 339.644,99.197 339.644,105.233L339.644,144.895C339.644,150.931 338.099,155.601 335.01,158.906C331.92,162.212 327.465,163.864 321.645,163.864ZM321.645,153.086C325.741,153.086 327.789,150.607 327.789,145.65L327.789,104.478C327.789,99.521 325.741,97.042 321.645,97.042C317.55,97.042 315.502,99.521 315.502,104.478L315.502,145.65C315.502,150.607 317.55,153.086 321.645,153.086Z" class="s2" style="fill-rule:nonzero;"/><path id="06N" d="M347.62,87.342L362.493,87.342L374.025,132.501L374.241,132.501L374.241,87.342L384.803,87.342L384.803,162.786L372.624,162.786L358.398,107.712L358.182,107.712L358.182,162.786L347.62,162.786L347.62,87.342Z" class="s2" style="fill-rule:nonzero;"/></g>'
     ));
   }
-
   function renderNftSvgBottomById(uint256 id) internal view returns (string memory) {
     string memory ticketType = vipTicketHolders[id] ? "VIP" : "General Admission";
     return string(abi.encodePacked(

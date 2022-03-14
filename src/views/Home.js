@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { ethers } from 'ethers'
 
@@ -25,12 +25,20 @@ const Home = () => {
       type: "vip",
       description: "Foxcon VIP Access",
       priceInWei: ethers.utils.formatEther("50000000000000000"),
+      priceHexValue: '0x6a94d74f430000',
+      data: 'eb93406b',
+      chainId: '0x4',
+      contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS,
       exampleImage: vipExampleImage
     },{
       event: "Foxcon2022",
       type: "ga",
       description: "Foxcon General Admission",
       priceInWei: ethers.utils.formatEther("30000000000000000"),
+      priceHexValue: '0x6a94d74f430000',
+      data: 'eb93406b',
+      chainId: '0x4',
+      contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS,
       exampleImage: gaExampleImage
     }
   ]
