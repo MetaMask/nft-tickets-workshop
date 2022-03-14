@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import styled from 'styled-components'
 import { ViewContext } from '../../context/ViewProvider'
 
-const TicketDetails = ({ nft }) => {
+const TicketDetails = ({ ticket }) => {
   const { user } = useContext(ViewContext)
   const { address } = user
 
@@ -35,15 +35,13 @@ const TicketDetails = ({ nft }) => {
 
   return (
     <NftCard>
-      <img width="360" height="360" src={nft.image} />
+      <img width="360" height="360" src={ticket.exampleImage} alt={ticket.description} />
       <NftCollName>Foxcon2022</NftCollName>
       <InnerCont>
-        <NftName>{nft.name}</NftName>
+        <NftName>{ticket.name}</NftName>
         {
           address
-            ? <a href={`https://testnets.opensea.io/assets/${process.env.REACT_APP_CONTRACT_ADDRESS}/${nft.properties.ticketNumber}`}>
-                View on OpenSea
-              </a>
+            ? <a href={``}>Mint</a>
             : null
         }
       </InnerCont>

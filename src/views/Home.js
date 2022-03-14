@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
+import { ethers } from 'ethers'
+
 import { ViewContext } from '../context/ViewProvider'
 import GlobalStyles from '../theme/GlobalStyles'
 
@@ -11,34 +13,27 @@ import NetworkButton from '../components/molecules/NetworkButton'
 import Tickets from '../components/templates/Tickets'
 import TicketDetails from '../components/templates/TicketDetails'
 
+import vipExampleImage from '../assets/vip.png'
+import gaExampleImage from '../assets/ga.png'
+
 const Home = () => {
   const { foxcon2022, user, chainId, actions } = useContext(ViewContext)
   const { address } = user
-  const [nfts, setNfts] = useState([])
-
-  const getTokenJsonById = async (id) => {
-    let tokenUrl = await foxcon2022.tokenURI(id)
-    let tokenResult = await fetch(tokenUrl)
-      .then(res => res.json())
-
-    return tokenResult
-  }
-
-  const buildNftArray = async () => {
-    const totalSupply = (await foxcon2022.totalSupply()).toNumber()
-    var nfts = []
-    for (let i = 1; i <= totalSupply; i++) {
-      let tokenResult = await getTokenJsonById(1000 + i)
-      nfts.push(tokenResult)
+  const tickets = [
+    {
+      event: "Foxcon2022",
+      type: "vip",
+      description: "Foxcon VIP Access",
+      priceInWei: ethers.utils.formatEther("50000000000000000"),
+      exampleImage: vipExampleImage
+    },{
+      event: "Foxcon2022",
+      type: "ga",
+      description: "Foxcon General Admission",
+      priceInWei: ethers.utils.formatEther("30000000000000000"),
+      exampleImage: gaExampleImage
     }
-    setNfts(nfts)
-  }
-
-  useEffect(() => {
-    if (foxcon2022 && chainId === 4) {
-      buildNftArray()
-    }
-  }, [foxcon2022])
+  ]
 
   return (
     <HashRouter>
@@ -56,9 +51,9 @@ const Home = () => {
       <main>
         <div>
           <Routes>
-            <Route path="/" exact element={<Tickets nfts={nfts} />} />
-            {nfts && nfts.map((nft, idx) =>
-              <Route key={idx} element={<TicketDetails nft={nft} />} path={`/${nft.properties.ticketNumber}`} />
+            <Route path="/" exact element={<Tickets tickets={tickets} />} />
+            {tickets && tickets.map((ticket, i) =>
+              <Route key={`ticket-route${i}`} element={<TicketDetails ticket={ticket} />} path={`/${ticket.type}`} />
             )}
           </Routes>
           {

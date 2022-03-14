@@ -34,13 +34,33 @@ module.exports = {
    * $ truffle test --network <network-name>
    */
 
+  
+  plugins: ["truffle-contract-size"],
+  /*
+
+    Resources on Contract Size: 
+    - https://ethereum.org/en/developers/tutorials/downsizing-contracts-to-fight-the-contract-size-limit/
+    - / https://www.npmjs.com/package/truffle-contract-size
+
+    Max size for SOlidity contracts is: 24576 bytes or 24.576KB
+    Running the follwoing command in your project root will give you the size of one or more contracts:
+
+    > truffle run contract-size --contracts Foxcon2022
+    ┌──────────────────────────────────────────────────────────────────────┬──────────┐
+    │ Contract                                                             │ Size     │
+    ├──────────────────────────────────────────────────────────────────────┼──────────┤
+    │ Foxcon2022                                                           │ 21.54 K… │
+    └──────────────────────────────────────────────────────────────────────┴──────────┘
+    
+  */
+
   networks: {
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
     // You should run a client (like ganache-cli, geth or parity) in a separate terminal
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
-    //
+
     development: {
      host: "127.0.0.1",     // Localhost (default: none)
      port: 8545,            // Standard Ethereum port (default: none)
