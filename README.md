@@ -558,7 +558,13 @@ Finally in this step, we will also add our script by itself in the `package.json
   },
 ```
 
+## Contribution Challenges
 
+This workshop uses a repository that our MetaMask team delivers at conferences all over the world, it's a great place to start contributing in Web3, because you can apply what you already know about Web2. Anyone can fork, add features and documentation to help us iterate [on this project](https://github.com/metamask/nft-tickets-workshop/)!
+
+- Add TypeScript for types and errors
+- Add Solidity testing
+- Add 
 
 ## Resources
 
