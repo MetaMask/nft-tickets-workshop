@@ -17,29 +17,31 @@ import vipExampleImage from '../assets/vip.png'
 import gaExampleImage from '../assets/ga.png'
 
 const Home = () => {
-  const { foxcon2022, user, chainId, actions } = useContext(ViewContext)
+  const { user, chainId, actions } = useContext(ViewContext)
   const { address } = user
   const tickets = [
     {
-      event: "Foxcon2022",
       type: "vip",
-      description: "Foxcon VIP Access",
-      priceInWei: ethers.utils.formatEther("50000000000000000"),
-      priceHexValue: '0x6a94d74f430000',
-      data: 'eb93406b',
-      chainId: '0x4',
-      contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS,
-      exampleImage: vipExampleImage
-    },{
       event: "Foxcon2022",
+      description: "Foxcon VIP Access",
+      exampleImage: vipExampleImage,
+      priceInWei: ethers.utils.formatEther("50000000000000000"),
+      priceHexValue: '0x6a94d74f430000'
+      // Needed for ethereum.provider, not needed for calling mintItem.
+      // , data: 'eb93406b',
+      // chainId: '0x4',
+      // contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS
+    },{
       type: "ga",
+      event: "Foxcon2022",
       description: "Foxcon General Admission",
+      exampleImage: gaExampleImage,
       priceInWei: ethers.utils.formatEther("30000000000000000"),
-      priceHexValue: '0x6a94d74f430000',
-      data: 'eb93406b',
-      chainId: '0x4',
-      contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS,
-      exampleImage: gaExampleImage
+      priceHexValue: '0x6a94d74f430000'
+      // Needed for ethereum.provider with full method and params array, not needed for calling mintItem.
+      // , data: 'eb93406b',
+      // chainId: '0x4',
+      // contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS
     }
   ]
 
