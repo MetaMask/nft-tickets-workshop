@@ -92,7 +92,7 @@ const GlobalStyles = createGlobalStyle`
     justify-self: center;
     background-color: #49a6f9;
     opacity: 0.8;
-    background-image: radial-gradient(#000000 1px, #49a6f9 1px);
+    background-image: radial-gradient(#6486a5 1px, #49a6f9 1px);
     background-size: 17px 17px;
     align-self: stretch;
     grid-area: nav;
@@ -103,6 +103,12 @@ const GlobalStyles = createGlobalStyle`
     @media (min-width: 1500px) {
       width: 14vw;
     }
+    ul {
+      list-style-type: none;
+    }
+    li {
+      padding-left: 0; text-indent: -2em;
+    }
   }
 
   main {
@@ -110,6 +116,8 @@ const GlobalStyles = createGlobalStyle`
     z-index: 10;
     width: 100%;
     justify-self: stretch;
+    padding-left: 1em;
+    padding-top: 0.5em;
   }
 
   section {

@@ -8,7 +8,7 @@ const Wrap = styled.div`
   /* border: 1px solid red; */
 `
 const NftCard = styled.div`
-  height: 100px;
+  height: 80px;
   width: 300px;
   border-radius: 12px;
   border: 1px solid #cfcfcf;

@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { HashRouter, Route, Routes } from 'react-router-dom'
+import { Link, HashRouter, Route, Routes } from 'react-router-dom'
 import { ethers } from 'ethers'
 
 import { ViewContext } from '../context/ViewProvider'
@@ -55,6 +55,11 @@ const Home = () => {
               : <InstallMetaMask />
         }
       </header>
+      <nav>
+        <ul>
+          <li><Link to={`/`}>Tickets</Link></li>
+        </ul>
+      </nav>
       <main>
         <div>
           <Routes>
@@ -64,10 +69,9 @@ const Home = () => {
             )}
           </Routes>
           <TicketsOwned />
-          {
-            chainId !== 4 
-              ? <span>Not Connected to Rinkeby Testnet</span> 
-              : null
+          { chainId !== 4 
+            ? <span>Not Connected to Rinkeby Testnet</span> 
+            : null
           }
         </div>
       </main>
