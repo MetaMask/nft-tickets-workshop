@@ -69,9 +69,11 @@ const Home = () => {
             )}
           </Routes>
           <TicketsOwned />
-          { chainId !== 4 
-            ? <span>Not Connected to Rinkeby Testnet</span> 
-            : null
+          { !address
+              ? <div>Not Connected to MetaMask</div> 
+              : chainId && chainId !== 4 
+                ? <div>Not Connected to Rinkeby</div>
+                : null
           }
         </div>
       </main>
