@@ -66,7 +66,8 @@ const GlobalStyles = createGlobalStyle`
     height: 80px;
     border-top: 2px solid #000;
     grid-area: footer;
-    background-color: #fe5a58;
+    background-color: #333;
+    color: #fff;
     width: 100%;
     align-self: flex-end;
     display: flex;
@@ -90,9 +91,9 @@ const GlobalStyles = createGlobalStyle`
   nav {
     height: 100%;
     justify-self: center;
-    background-color: #49a6f9;
+    background-color: #666;
     opacity: 0.8;
-    background-image: radial-gradient(#6486a5 1px, #49a6f9 1px);
+    background-image: radial-gradient(#4f4f4f 1px, #4e4e4e 1px);
     background-size: 17px 17px;
     align-self: stretch;
     grid-area: nav;
@@ -107,7 +108,13 @@ const GlobalStyles = createGlobalStyle`
       list-style-type: none;
     }
     li {
-      padding-left: 0; text-indent: -2em;
+      padding-left: 0.5em; text-indent: -2em;
+    }
+    li > a {
+      color: #fff;
+    }
+    li > a:hover {
+      color: #999;
     }
   }
 
