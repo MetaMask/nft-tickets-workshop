@@ -5,13 +5,14 @@ import { ethers } from 'ethers'
 import { ViewContext } from '../context/ViewProvider'
 import GlobalStyles from '../theme/GlobalStyles'
 
-import Pill from '../components/molecules/Pill'
-import ConnectButton from '../components/molecules/ConnectButton'
+import DisplayAddress from '../components/molecules/DisplayAddress'
+import ConnectMetaMask from '../components/molecules/ConnectMetaMask'
 import InstallMetaMask from '../components/molecules/InstallMetaMask'
-import NetworkButton from '../components/molecules/NetworkButton'
+import ConnectNetwork from '../components/molecules/ConnectNetwork'
 
 import Tickets from '../components/templates/Tickets'
 import TicketDetails from '../components/templates/TicketDetails'
+import TicketsOwned from '../components/templates/TicketsOwned'
 
 import vipExampleImage from '../assets/vip.png'
 import gaExampleImage from '../assets/ga.png'
@@ -19,29 +20,25 @@ import gaExampleImage from '../assets/ga.png'
 const Home = () => {
   const { user, chainId, actions } = useContext(ViewContext)
   const { address } = user
+
+  const ethGaHex = ethers.utils.parseEther('0.03')._hex
+  const ethVipHex = ethers.utils.parseEther('0.05')._hex
+
   const tickets = [
     {
-      type: "vip",
-      event: "Foxcon2022",
-      description: "Foxcon VIP Access",
-      exampleImage: vipExampleImage,
-      priceInWei: ethers.utils.formatEther("50000000000000000"),
-      priceHexValue: '0x6a94d74f430000'
-      // Needed for ethereum.provider, not needed for calling mintItem.
-      // , data: 'eb93406b',
-      // chainId: '0x4',
-      // contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS
-    },{
       type: "ga",
       event: "Foxcon2022",
       description: "Foxcon General Admission",
       exampleImage: gaExampleImage,
       priceInWei: ethers.utils.formatEther("30000000000000000"),
-      priceHexValue: '0x6a94d74f430000'
-      // Needed for ethereum.provider with full method and params array, not needed for calling mintItem.
-      // , data: 'eb93406b',
-      // chainId: '0x4',
-      // contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS
+      priceHexValue: ethGaHex // '0x6a94d74f430000'
+    },{
+      type: "vip",
+      event: "Foxcon2022",
+      description: "Foxcon VIP Access",
+      exampleImage: vipExampleImage,
+      priceInWei: ethers.utils.formatEther("50000000000000000"),
+      priceHexValue: ethVipHex // '0xb1a2bc2ec50000'
     }
   ]
 
@@ -49,12 +46,12 @@ const Home = () => {
     <HashRouter>
       <GlobalStyles />
       <header>
-        { chainId && chainId !== 4
-          ? <NetworkButton />
-          : address
-            ? <Pill />
+        { address && chainId && chainId === 4
+          ? <DisplayAddress />
+          : address && chainId && chainId !== 4
+            ? <ConnectNetwork />
             : window.ethereum
-              ? <ConnectButton connect={actions.connect} />
+              ? <ConnectMetaMask connect={actions.connect} />
               : <InstallMetaMask />
         }
       </header>
@@ -66,6 +63,7 @@ const Home = () => {
               <Route key={`ticket-route${i}`} element={<TicketDetails ticket={ticket} />} path={`/${ticket.type}`} />
             )}
           </Routes>
+          <TicketsOwned />
           {
             chainId !== 4 
               ? <span>Not Connected to Rinkeby Testnet</span> 

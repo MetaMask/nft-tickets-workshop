@@ -18,7 +18,7 @@ const Wrap = styled.div`
   }
 `
 
-const Pill = () => {
+const DisplayAddress = () => {
   const { user } = useContext(ViewContext)
   const { address } = user
   const formatAddress = (addr) => {
@@ -32,4 +32,4 @@ const Pill = () => {
   )
 }
 
-export default Pill
+export default DisplayAddress

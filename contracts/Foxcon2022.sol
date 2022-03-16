@@ -25,9 +25,14 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
   Counters.Counter private _tokenIds;
 
   uint16 _myTotalSupply = 0; // max value 65,535
-  uint16 public MAX_SUPPLY = 8999; // max value 65,535
-  uint256 public constant vipTicketPrice = 50000000000000000; //0.05 ETH
-  uint256 public constant gaTicketPrice = 30000000000000000; //0.03 ETH
+
+  /* 
+    // * size added 0.3KB
+    uint16 public MAX_SUPPLY = 8999; // max value 65,535
+    uint256 public constant vipTicketPrice = 50000000000000000; //0.05 ETH
+    uint256 public constant gaTicketPrice = 30000000000000000; //0.03 ETH
+  */
+
   mapping (uint256 => bool) public gaTicketHolders;
   mapping (uint256 => bool) public vipTicketHolders;
 
@@ -45,6 +50,7 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
   /**
     * @dev Returns the wallet of a given wallet. Mainly for ease for frontend devs.
     * @param _wallet The wallet to get the tokens of. NEEDS ENUMERABLE
+    // * size added 0.3KB
   */
   function walletOfOwner(address _wallet) public view returns (uint256[] memory) {
     uint256 tokenCount = balanceOf(_wallet);
@@ -55,6 +61,8 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
     }
     return tokensId;
   }
+
+  // Add Transfer balance function
 
   function contractURI() public pure returns (string memory) {
     string memory image = Base64.encode(bytes(generateCollectionSvg()));
@@ -83,9 +91,9 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
   }
 
   modifier canMint() {
-    require(_myTotalSupply < MAX_SUPPLY, 'All tickets have been minted.');
+    require(_myTotalSupply < 8999, 'All tickets have been minted.');
     require(block.timestamp < mintDeadline, 'Mintiing period has expired.');
-    require(vipTicketPrice == msg.value || gaTicketPrice == msg.value, "Ether value sent is not correct.");
+    require(50000000000000000 == msg.value || 30000000000000000 == msg.value, "Ether value sent is not correct.");
     _; // Underscores used in function modifiers return and continue execution of the decorated function
   }
 
@@ -95,8 +103,8 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
     _tokenIds.increment();
     uint256 id = _tokenIds.current();
     _safeMint(msg.sender, id);
-    //if(msg.value == vipTicketPrice) { vipTicketHolders[id] = true; } else { gaTicketHolders[id] = true; }
-    msg.value == vipTicketPrice ? vipTicketHolders[id] = true : gaTicketHolders[id] = true;
+    //if(msg.value == 50000000000000000) { vipTicketHolders[id] = true; } else { gaTicketHolders[id] = true; }
+    msg.value == 50000000000000000 ? vipTicketHolders[id] = true : gaTicketHolders[id] = true;
     _myTotalSupply++;
 
     return (id);
@@ -122,6 +130,9 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
     );
   }
 
+  /* 
+    // * size added 9.92KB
+  */
   function generateNftSvgByTokenId(uint256 id) public view returns (string memory) {
     return string(abi.encodePacked(
       'data:image/svg+xml;base64',

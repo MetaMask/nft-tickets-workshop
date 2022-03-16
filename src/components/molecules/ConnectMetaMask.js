@@ -1,7 +1,7 @@
 import metaMask from '../../assets/metamask.svg'
 import Button from '../atoms/Button'
 
-const ConnectButton = ({ connect }) => {
+const ConnectMetaMask = ({ connect }) => {
   return (
     <Button handleClick={connect}>
       <img src={metaMask} alt="MetaMask Logo" />
@@ -10,4 +10,4 @@ const ConnectButton = ({ connect }) => {
   )
 }
 
-export default ConnectButton
+export default ConnectMetaMask

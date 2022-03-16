@@ -2,12 +2,12 @@ import { useContext } from 'react'
 import { ViewContext } from '../../context/ViewProvider'
 import Button from '../atoms/Button'
 
-const NetworkButton = () => {
+const ConnectNetwork = () => {
   const { provider } = useContext(ViewContext)
 
   console.log(provider)
 
-  const connectNetwork = async () => {
+  const addSwitchNetwork = async () => {
     if (provider) {
       try {
         await window.ethereum.request({
@@ -43,10 +43,10 @@ const NetworkButton = () => {
   }
 
   return (
-    <Button handleClick={connectNetwork}>
+    <Button handleClick={addSwitchNetwork}>
       <p>Connect Rinkeby</p>
     </Button>
   )
 }
 
-export default NetworkButton
+export default ConnectNetwork
