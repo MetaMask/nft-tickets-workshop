@@ -24,4 +24,4 @@ yarn-error.log*
 
 .secret
 .env
-src/lib/Foxcon2022.json
+src/lib/*
