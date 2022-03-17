@@ -25,15 +25,15 @@ We used Create React App to setup a working React project with some styles and p
 Some of the command we have already run are:
 
 ```bash
-npx create-react-app stablecoin-nft-ticket-workshop`
+npx create-react-app nft-ticket-workshop && cd $_
 ```
 
 ```bash
-npm i polished styled-components
+npm i ethers ncp polished styled-components use-immer
 ```
 
 ```bash
-npm i @openzeppelin/contracts
+npm i @openzeppelin/contracts base64-sol ncp truffle-contract-size
 ```
 
 Run `npm i && npm start` and ensure that you get a standard React Projects with no errors in the terminal or in the browser console.
