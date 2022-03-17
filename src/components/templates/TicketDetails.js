@@ -46,7 +46,7 @@ const TicketDetails = ({ ticket }) => {
       //   data: ticket.data,
       //   chainId: ticket.chainId
       // })
-      .then((tx) => console.log('Mined!', tx))
+      .then((tx) => console.log(`Minting complete, mined: ${tx}`))
       .catch((error) => console.error(error))
   }
 

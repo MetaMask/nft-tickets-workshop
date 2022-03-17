@@ -5,8 +5,6 @@ import Button from '../atoms/Button'
 const ConnectNetwork = () => {
   const { provider } = useContext(ViewContext)
 
-  console.log(provider)
-
   const addSwitchNetwork = async () => {
     if (provider) {
       try {

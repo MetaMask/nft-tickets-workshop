@@ -30,7 +30,7 @@ export const ViewProvider = ({ children }) => {
         }
         dispatch({ type: 'SET_ACCOUNT', payload: connectedAccount })
       } catch (e) {
-        console.log(e)
+        console.error(e)
       }
     } else {
       dispatch({ type: 'SET_ACCOUNT', payload: initialState.user })
@@ -84,7 +84,7 @@ export const ViewProvider = ({ children }) => {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
       setAccount(accounts)
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
   }
 
