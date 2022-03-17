@@ -26,14 +26,12 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
 
   uint16 _myTotalSupply = 0; // max value 65,535
 
-  /* 
-    // * size added 0.3KB
-    uint16 public MAX_SUPPLY = 8999; // max value 65,535
-    uint256 public constant vipTicketPrice = 50000000000000000; //0.05 ETH
-    uint256 public constant gaTicketPrice = 30000000000000000; //0.03 ETH
-  */
+  // * size added 0.3KB
+  uint16 public MAX_SUPPLY = 8999; // max value 65,535
+  uint256 public constant vipTicketPrice = 50000000000000000; //0.05 ETH
+  uint256 public constant gaTicketPrice = 30000000000000000; //0.03 ETH
 
-  mapping (uint256 => bool) public gaTicketHolders;
+  // mapping (uint256 => bool) public gaTicketHolders;
   mapping (uint256 => bool) public vipTicketHolders;
 
   constructor() ERC721("Foxcon2022", "FXC22") {
@@ -91,9 +89,9 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
   }
 
   modifier canMint() {
-    require(_myTotalSupply < 8999, 'All tickets have been minted.');
+    require(_myTotalSupply < MAX_SUPPLY, 'All tickets have been minted.');
     require(block.timestamp < mintDeadline, 'Mintiing period has expired.');
-    require(50000000000000000 == msg.value || 30000000000000000 == msg.value, "Ether value sent is not correct.");
+    require(vipTicketPrice == msg.value || gaTicketPrice == msg.value, "Ether value sent is not correct.");
     _; // Underscores used in function modifiers return and continue execution of the decorated function
   }
 
@@ -103,8 +101,13 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
     _tokenIds.increment();
     uint256 id = _tokenIds.current();
     _safeMint(msg.sender, id);
-    //if(msg.value == 50000000000000000) { vipTicketHolders[id] = true; } else { gaTicketHolders[id] = true; }
-    msg.value == 50000000000000000 ? vipTicketHolders[id] = true : gaTicketHolders[id] = true;
+
+    //if(msg.value == vipTicketPrice) { vipTicketHolders[id] = true; } else { gaTicketHolders[id] = true; }
+    // msg.value == vipTicketPrice ? vipTicketHolders[id] = true : gaTicketHolders[id] = true;
+    if (msg.value == vipTicketPrice) {
+      vipTicketHolders[id] = true;
+    }
+
     _myTotalSupply++;
 
     return (id);
@@ -119,13 +122,13 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
       '{"name":"', name, '","description":"',description,'",', //'"external_url":"https://dappblitz.eth/', id.toString(), '.svg",', 
       '"attributes":[{"trait_type":"Ticket Type", "value":"', (vipTicketHolders[id] ? "VIP" : "GA"),  '"}],',
       '"owner":"', (uint160(ownerOf(id))).toHexString(20),'",',
-      '"image":',generateNftSvgByTokenId(id),'}'
+      '"image":"',generateNftSvgByTokenId(id),'"}'
     ));
 
     return string(
       abi.encodePacked(
         'data:application/json;base64,',
-        Base64.encode(tokenJsonString)
+        Base64.encode(bytes(tokenJsonString))
       )
     );
   }

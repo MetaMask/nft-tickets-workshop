@@ -28,6 +28,7 @@ const TicketsOwned = () => {
     <li key={tokenId.toString()}>
       <a href={`https://testnets.opensea.io/assets/${process.env.REACT_APP_CONTRACT_ADDRESS}/${tokenId.toString()}`}
         alt={`View Token ${tokenId.toString()} on OpenSea!`}
+        target="_blank" rel="noopener noreferrer"
       >
         {tokenId.toString()}
       </a>
@@ -39,7 +40,7 @@ const TicketsOwned = () => {
       <hr height="1" />
       { ownedTickets.length > 0
         ? <>
-            <div>You have {ownedTickets.length} tickets, click to view on OpenSea!</div>
+            <div>You have {ownedTickets.length} ticket{ownedTickets.length > 1 ? 's' : ''}, click to view on OpenSea!</div>
             <ul>
               {listOfTokens}
             </ul>
