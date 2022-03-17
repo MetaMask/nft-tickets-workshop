@@ -22,11 +22,18 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "node copyJson.js && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts builds",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "copy": "node copyJson.js"
+    "clean:contract": "rm -rf build",
+    "clean:artifacts": "rm -fr src/lib/*",
+    "clean:node": "rm -rf node_modules",
+    "clean": "npm run clean:contract && npm run clean:artifacts && npm run clean:node",
+    "build:contract": "truffle compile",
+    "build:artifacts": "node scripts/artifacts.js ",
+    "build:all": "npm run build:contract && npm run build:artifacts",
+    "setup": "npm run clean && npm ci && npm run build:all"
   },
   "eslintConfig": {
     "extends": [
