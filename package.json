@@ -10,6 +10,7 @@
     "@truffle/hdwallet-provider": "^2.0.4",
     "antd": "^4.19.2",
     "base64-sol": "^1.1.0",
+    "dotenv": "^16.0.0",
     "ethers": "^5.5.4",
     "ncp": "^2.0.0",
     "polished": "^4.1.4",
