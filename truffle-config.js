@@ -20,12 +20,9 @@
 require('dotenv').config();
 
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-
-const {
-    REACT_APP_INFURA_ENDPOINT,
-    REACT_APP_OWNER_ADDRESS,
-    REACT_APP_OWNER_SECRET: mnemonic,
-} = process.env;
+const mnemonic = process.env.REACT_APP_OWNER_MNEMONIC;
+const owner = process.env.REACT_APP_OWNER_ADDRESS;
+const infura_endpoint = process.env.REACT_APP_INFURA_ENDPOINT;
 
 module.exports = {
     /**
@@ -93,12 +90,8 @@ module.exports = {
             skipDryRun: true, // Skip dry run before migrations? (default: false for public nets )
         },
         rinkeby: {
-            provider: () =>
-                new HDWalletProvider(
-                    mnemonic.toString().trim(),
-                    REACT_APP_INFURA_ENDPOINT.toString().trim()
-                ),
-            from: REACT_APP_OWNER_ADDRESS.toString().trim(), // Public wallet address
+            provider: () => new HDWalletProvider(mnemonic, infura_endpoint),
+            from: owner, // Public wallet address
             network_id: 4, // rinkeby's id
             gas: 5500000, // rinkeby has a lower block limit than mainnet
             timeoutBlocks: 200, // # of blocks before a deployment times out  (minimum/default: 50)
