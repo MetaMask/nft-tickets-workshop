@@ -13,6 +13,10 @@ const Wrap = styled.div`
 const SvgItem = styled.div`
   width: 150px;
   padding: 8px;
+  cursor: pointer;
+  &:hover img {
+    opacity:0.5
+  }
   /* border: 1px solid red; */
 `
 
