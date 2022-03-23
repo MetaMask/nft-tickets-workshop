@@ -45,7 +45,7 @@ const TicketsOwned = () => {
           const currentTokenId = t.toString()
           let currentTicket = await foxcon2022.tokenURI(currentTokenId)
           let base64ToString = window.atob(currentTicket.replace('data:application/json;base64,', ''))
-          base64ToString = JSON.parse(base64ToString);
+          base64ToString = JSON.parse(base64ToString)
   
           ticketsRetrieved.push({
             tokenId: currentTokenId,
