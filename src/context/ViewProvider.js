@@ -11,9 +11,11 @@ export const ViewContext = createContext(initialState)
 
 //utils
 export const bigNumberify = (amt) => {
+  // Get ETH as small number ("0.01" => "10000000000000000")
   return ethers.utils.parseEther(amt)
 }
 export const smolNumberify = (amt, decimals = 18) => {
+  // Get ETH as small number ("10000000000000000" => "0.01")
   return parseFloat(ethers.utils.formatUnits(amt, decimals))
 }
 //utils
@@ -100,7 +102,8 @@ export const ViewProvider = ({ children }) => {
         user,
         name,
         chainId,
-        actions: { connect }
+        actions: { connect },
+        bigNumberify
       }}>
       {children}
     </ViewContext.Provider>

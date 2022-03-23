@@ -79,10 +79,9 @@ const TicketDetails = ({ ticket }) => {
     <>
       <NftCard>
         <img width="300" height="300" src={ticket.exampleImage} alt={ticket.description} />
-        <NftCollName>Foxcon2022 Ticket Example</NftCollName>
+        <NftCollName><strong>Foxcon2022 {ticket.type.toUpperCase()}</strong> ({ticket.price} ETH)</NftCollName>
         <InnerCont>
           <NftName>{ticket.name}</NftName>
-          <NftPrice>{ticket.price} ETH</NftPrice>
           { address && (chainId === 4 || chainId === 1337)
             ? <button disabled={isMinting} onClick={mintTicket}>{isMinting ? 'Minting...' : 'Mint'}</button>
             : !address

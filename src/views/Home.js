@@ -18,13 +18,13 @@ import vipExampleImage from '../assets/vip.png'
 import gaExampleImage from '../assets/ga.png'
 
 const Home = () => {
-  const { user, chainId, actions } = useContext(ViewContext)
+  const { user, chainId, actions, bigNumberify } = useContext(ViewContext)
   const { address } = user
 
   const ethGa = '0.01'
   const ethVip = '0.02'
-  const ethGaHex = ethers.utils.parseEther(ethGa)._hex
-  const ethVipHex = ethers.utils.parseEther(ethVip)._hex
+  const ethGaHex = bigNumberify(ethGa)._hex
+  const ethVipHex = bigNumberify(ethVip)._hex
 
   const tickets = [
     {
