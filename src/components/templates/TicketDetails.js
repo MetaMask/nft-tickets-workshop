@@ -3,30 +3,34 @@ import styled from 'styled-components'
 import { ViewContext } from '../../context/ViewProvider'
 
 const NftCard = styled.div`
-width: 300px;
-height: 390px;
-border-radius: 12px;
-border: 1px solid #cfcfcf;
-margin: 8px;
+  width: 300px;
+  height: 390px;
+  border-radius: 12px;
+  border: 1px solid #cfcfcf;
+  margin: 8px;
+  /* border: 1px solid red; */
 `
 
 const NftCollName = styled.div`
-padding: 8px;
+  padding: 8px;
 `
 
 const InnerCont = styled.div`
-display: flex;
-justify-content: space-between;
-padding: 8px;
-color: #222;
-button {
-  background-color: #FFF;
-  color: inherit;
-}
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  color: #222;
+  button {
+    background-color: #FFF;
+    color: inherit;
+  }
 `
 
 const NftName = styled.div`
-font-weight: 600;
+  font-weight: 600;
+`
+const NftPrice = styled.div`
+  font-weight: 400;
 `
 
 const TicketDetails = ({ ticket }) => {
@@ -57,9 +61,10 @@ const TicketDetails = ({ ticket }) => {
     <>
       <NftCard>
         <img width="300" height="300" src={ticket.exampleImage} alt={ticket.description} />
-        <NftCollName>Foxcon2022</NftCollName>
+        <NftCollName>Foxcon2022 Ticket Example</NftCollName>
         <InnerCont>
           <NftName>{ticket.name}</NftName>
+          <NftPrice>{ticket.price} ETH</NftPrice>
           { address && (chainId === 4 || chainId === 1337)
             ? <button disabled={isMinting} onClick={mintTicket}>{isMinting ? 'Minting...' : 'Mint'}</button>
             : !address

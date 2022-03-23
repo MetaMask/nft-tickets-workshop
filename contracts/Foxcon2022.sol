@@ -28,8 +28,8 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
 
   // * size added 0.3KB
   uint16 public MAX_SUPPLY = 8999; // max value 65,535
-  uint256 public constant vipTicketPrice = 50000000000000000; //0.05 ETH
-  uint256 public constant gaTicketPrice = 30000000000000000; //0.03 ETH
+  uint256 public constant vipTicketPrice = 20000000000000000; //0.02 ETH
+  uint256 public constant gaTicketPrice = 10000000000000000; //0.01 ETH
 
   // mapping (uint256 => bool) public gaTicketHolders;
   mapping (uint256 => bool) public vipTicketHolders;
@@ -39,7 +39,7 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
   }
 
   mapping (uint256 => bytes3) public color;
-  uint256 mintDeadline = block.timestamp + 24 hours;
+  uint256 mintDeadline = block.timestamp + 168 hours;
 
   function totalSupply() view public override returns(uint256) {
     return _myTotalSupply; // gas optimization (otherwise totalSupply() when mint)

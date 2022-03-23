@@ -21,8 +21,10 @@ const Home = () => {
   const { user, chainId, actions } = useContext(ViewContext)
   const { address } = user
 
-  const ethGaHex = ethers.utils.parseEther('0.03')._hex
-  const ethVipHex = ethers.utils.parseEther('0.05')._hex
+  const ethGa = '0.01'
+  const ethVip = '0.02'
+  const ethGaHex = ethers.utils.parseEther(ethGa)._hex
+  const ethVipHex = ethers.utils.parseEther(ethVip)._hex
 
   const tickets = [
     {
@@ -30,12 +32,14 @@ const Home = () => {
       event: "Foxcon2022",
       description: "Foxcon General Admission",
       exampleImage: gaExampleImage,
+      price: ethGa,
       priceHexValue: ethGaHex // '0x6a94d74f430000'
     },{
       type: "vip",
       event: "Foxcon2022",
       description: "Foxcon VIP Access",
       exampleImage: vipExampleImage,
+      price: ethVip,
       priceHexValue: ethVipHex // '0xb1a2bc2ec50000'
     }
   ]

@@ -1,7 +1,20 @@
 import { useState, useEffect, useContext } from 'react'
+import styled from 'styled-components'
 import { ViewContext } from '../../context/ViewProvider'
 // import { ethers } from 'ethers'
 
+const Wrap = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 166px);
+  grid-template-rows: repeat(150px);
+  /* border: 1px solid blue; */
+`
+
+const SvgItem = styled.div`
+  width: 150px;
+  padding: 8px;
+  /* border: 1px solid red; */
+`
 
 const TicketsOwned = () => {
   const { user, foxcon2022, provider } = useContext(ViewContext)
@@ -55,16 +68,26 @@ const TicketsOwned = () => {
     }
     console.log(ownedTickets)
   }, [ownedTickets])
-  
-  const listOfTickets = ticketCollection.map(ticket => 
-    <li key={ticket.tokenId}>
+
+  let listOfTickets = ticketCollection.map(ticket =>
+    <SvgItem key={`ticket${ticket.tokenId}`}>
       <a href={`https://testnets.opensea.io/assets/${process.env.REACT_APP_CONTRACT_ADDRESS}/${ticket.tokenId}`}
         alt={`View Token ${ticket.tokenId} on OpenSea!`} target="_blank" rel="noopener noreferrer"
       >
         <img src={ticket.svgImage} width="150" alt={`Ticket# ${ticket.tokenId}`} />
       </a>
-    </li>
+    </SvgItem>
   )
+  
+  // const listOfTickets = ticketCollection.map(ticket => 
+  //   <li key={ticket.tokenId}>
+  //     <a href={`https://testnets.opensea.io/assets/${process.env.REACT_APP_CONTRACT_ADDRESS}/${ticket.tokenId}`}
+  //       alt={`View Token ${ticket.tokenId} on OpenSea!`} target="_blank" rel="noopener noreferrer"
+  //     >
+  //       <img src={ticket.svgImage} width="150" alt={`Ticket# ${ticket.tokenId}`} />
+  //     </a>
+  //   </li>
+  // )
 
   return (
     <>
@@ -72,7 +95,7 @@ const TicketsOwned = () => {
       { ownedTickets.length > 0
         ? <>
             <div>You have {ownedTickets.length} ticket{ownedTickets.length > 1 ? 's' : ''}, click to view on OpenSea!</div>
-            <ul>{listOfTickets}</ul>
+            <Wrap>{listOfTickets}</Wrap>
           </>
         : null
       }
