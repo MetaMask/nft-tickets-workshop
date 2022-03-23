@@ -60,7 +60,7 @@ export const ViewProvider = ({ children }) => {
     } catch (e) {
       console.log(e)
     }
-  }, [setAccount, dispatch])
+  }, [setAccount, dispatch, foxcon2022Address])
 
   useEffect(() => {
     if (window.ethereum) {

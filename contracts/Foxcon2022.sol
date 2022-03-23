@@ -138,7 +138,7 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
   */
   function generateNftSvgByTokenId(uint256 id) public view returns (string memory) {
     return string(abi.encodePacked(
-      'data:image/svg+xml;base64',
+      'data:image/svg+xml;base64,',
       Base64.encode(bytes(abi.encodePacked(
         '<svg preserveAspectRatio="xMinYMin meet" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;user-select: none;">',
           renderNftSvgBottomById(id),

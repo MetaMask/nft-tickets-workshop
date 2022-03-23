@@ -1,8 +1,9 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { ViewContext } from '../../context/ViewProvider'
 
 const TicketDetails = ({ ticket }) => {
+  const [isMinting, setIsMinting] = useState(false);
   const { user, foxcon2022, chainId } = useContext(ViewContext)
   const { address } = user
 
@@ -35,19 +36,21 @@ const TicketDetails = ({ ticket }) => {
 
   const mintTicket = async () => {
     console.log("minting start")
-      foxcon2022.mintItem({
-        from: address,
-        value: ticket.priceHexValue
-      })
-      // signer.sendTransaction({
-      //   from: address,
-      //   value: ticket.priceHexValue,
-      //   to: ticket.contractAddress,
-      //   data: ticket.data,
-      //   chainId: ticket.chainId
-      // })
-      .then((tx) => console.log(`Minting complete, mined: ${tx}`))
-      .catch((error) => console.error(error))
+    setIsMinting(true)
+
+    foxcon2022.mintItem({
+      from: address,
+      value: ticket.priceHexValue
+    })
+    .then(async(tx) => {
+      await tx.wait()
+      console.log(`Minting complete, mined: ${tx}`)
+      setIsMinting(false)
+    })
+    .catch((error) => {
+      console.error(error)
+      setIsMinting(false)
+    })
   }
 
   return (
@@ -57,8 +60,8 @@ const TicketDetails = ({ ticket }) => {
         <NftCollName>Foxcon2022</NftCollName>
         <InnerCont>
           <NftName>{ticket.name}</NftName>
-          { address && chainId === 4 
-            ? <button onClick={mintTicket}>Mint</button> 
+          { address && (chainId === 4 || chainId === 1337)
+            ? <button disabled={isMinting} onClick={mintTicket}>{isMinting ? 'Minting...' : 'Mint'}</button>
             : !address
               ? <div>Not Connected to MetaMask</div> 
               : chainId && chainId !== 4 

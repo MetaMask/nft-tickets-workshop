@@ -30,14 +30,12 @@ const Home = () => {
       event: "Foxcon2022",
       description: "Foxcon General Admission",
       exampleImage: gaExampleImage,
-      priceInWei: ethers.utils.formatEther("30000000000000000"),
       priceHexValue: ethGaHex // '0x6a94d74f430000'
     },{
       type: "vip",
       event: "Foxcon2022",
       description: "Foxcon VIP Access",
       exampleImage: vipExampleImage,
-      priceInWei: ethers.utils.formatEther("50000000000000000"),
       priceHexValue: ethVipHex // '0xb1a2bc2ec50000'
     }
   ]
@@ -71,8 +69,8 @@ const Home = () => {
           <TicketsOwned />
           { !address
               ? <div>Not Connected to MetaMask</div> 
-              : chainId && chainId !== 4 
-                ? <div>Not Connected to Rinkeby</div>
+              : chainId && (chainId !== 4)
+                ? <div>Not Connected to Rinkeby ({chainId})</div>
                 : null
           }
         </div>
