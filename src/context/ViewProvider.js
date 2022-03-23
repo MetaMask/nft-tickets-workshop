@@ -9,16 +9,11 @@ import foxcon2022Abi from '../lib/Foxcon2022.json'
 
 export const ViewContext = createContext(initialState)
 
-//utils
-export const bigNumberify = (amt) => {
-  // Get ETH as small number ("0.01" => "10000000000000000")
-  return ethers.utils.parseEther(amt)
-}
-export const smolNumberify = (amt, decimals = 18) => {
-  // Get ETH as small number ("10000000000000000" => "0.01")
-  return parseFloat(ethers.utils.formatUnits(amt, decimals))
-}
-//utils
+// Get ETH as small number ("0.01" => "10000000000000000")
+export const bigNumberify = (amt) => ethers.utils.parseEther(amt)
+// Get ETH as small number ("10000000000000000" => "0.01")
+export const smolNumberify = (amt, decimals = 18) => 
+  parseFloat(ethers.utils.formatUnits(amt, decimals))
 
 export const ViewProvider = ({ children }) => {
   const [state, dispatch] = useImmerReducer(reducer, initialState)
@@ -103,7 +98,8 @@ export const ViewProvider = ({ children }) => {
         name,
         chainId,
         actions: { connect },
-        bigNumberify
+        bigNumberify,
+        smolNumberify
       }}>
       {children}
     </ViewContext.Provider>

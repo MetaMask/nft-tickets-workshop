@@ -40,6 +40,9 @@ const StyledAlert = styled.div`
   word-break: break-word;
   margin: 1rem 1rem 1rem 0.5rem;
   border: 1px solid #E2761B;
+  strong {
+    color: #E2761B;
+  }
 `;
 const AlertMessage = styled.div`
   margin-bottom: 1em;
@@ -95,7 +98,7 @@ const TicketDetails = ({ ticket }) => {
       { 
         error && (
           <StyledAlert>
-            <AlertMessage>Error: {errorMessage}</AlertMessage>
+            <AlertMessage><strong>Error:</strong> {errorMessage}</AlertMessage>
             <button onClick={() => setError(false)}>dismiss</button>
           </StyledAlert>
         )
