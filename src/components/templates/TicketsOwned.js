@@ -61,7 +61,7 @@ const TicketsOwned = () => {
       <a href={`https://testnets.opensea.io/assets/${process.env.REACT_APP_CONTRACT_ADDRESS}/${ticket.tokenId}`}
         alt={`View Token ${ticket.tokenId} on OpenSea!`} target="_blank" rel="noopener noreferrer"
       >
-        <img src={ticket.svgImage} width="300" alt={`Ticket# ${ticket.tokenId}`} />
+        <img src={ticket.svgImage} width="150" alt={`Ticket# ${ticket.tokenId}`} />
       </a>
     </li>
   )

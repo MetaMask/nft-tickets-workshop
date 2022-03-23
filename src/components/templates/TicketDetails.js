@@ -2,37 +2,37 @@ import { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { ViewContext } from '../../context/ViewProvider'
 
+const NftCard = styled.div`
+width: 300px;
+height: 390px;
+border-radius: 12px;
+border: 1px solid #cfcfcf;
+margin: 8px;
+`
+
+const NftCollName = styled.div`
+padding: 8px;
+`
+
+const InnerCont = styled.div`
+display: flex;
+justify-content: space-between;
+padding: 8px;
+color: #222;
+button {
+  background-color: #FFF;
+  color: inherit;
+}
+`
+
+const NftName = styled.div`
+font-weight: 600;
+`
+
 const TicketDetails = ({ ticket }) => {
   const [isMinting, setIsMinting] = useState(false);
   const { user, foxcon2022, chainId } = useContext(ViewContext)
   const { address } = user
-
-  const NftCard = styled.div`
-    width: 300px;
-    height: 390px;
-    border-radius: 12px;
-    border: 1px solid #cfcfcf;
-    margin: 8px;
-  `
-
-  const NftCollName = styled.div`
-    padding: 8px;
-  `
-
-  const InnerCont = styled.div`
-    display: flex;
-    justify-content: space-between;
-    padding: 8px;
-    color: #222;
-    button {
-      background-color: #FFF;
-      color: inherit;
-    }
-  `
-
-  const NftName = styled.div`
-    font-weight: 600;
-  `
 
   const mintTicket = async () => {
     console.log("minting start")
