@@ -1,6 +1,5 @@
 import { useContext } from 'react'
 import { Link, HashRouter, Route, Routes } from 'react-router-dom'
-import { ethers } from 'ethers'
 
 import { ViewContext } from '../context/ViewProvider'
 import GlobalStyles from '../theme/GlobalStyles'
@@ -33,14 +32,14 @@ const Home = () => {
       description: "Foxcon General Admission",
       exampleImage: gaExampleImage,
       price: ethGa,
-      priceHexValue: ethGaHex // '0x6a94d74f430000'
+      priceHexValue: ethGaHex // '0x2386f26fc10000' *eserialize.com
     },{
       type: "vip",
       event: "Foxcon2022",
       description: "Foxcon VIP Access",
       exampleImage: vipExampleImage,
       price: ethVip,
-      priceHexValue: ethVipHex // '0xb1a2bc2ec50000'
+      priceHexValue: ethVipHex // '0x470de4df820000' *eserialize.com
     }
   ]
 
