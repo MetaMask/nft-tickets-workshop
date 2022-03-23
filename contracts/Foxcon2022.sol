@@ -102,8 +102,6 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
     uint256 id = _tokenIds.current();
     _safeMint(msg.sender, id);
 
-    //if(msg.value == vipTicketPrice) { vipTicketHolders[id] = true; } else { gaTicketHolders[id] = true; }
-    // msg.value == vipTicketPrice ? vipTicketHolders[id] = true : gaTicketHolders[id] = true;
     if (msg.value == vipTicketPrice) {
       vipTicketHolders[id] = true;
     }
