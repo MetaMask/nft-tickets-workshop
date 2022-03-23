@@ -10,11 +10,9 @@ const NftCard = styled.div`
   margin: 8px;
   /* border: 1px solid red; */
 `
-
 const NftCollName = styled.div`
   padding: 8px;
 `
-
 const InnerCont = styled.div`
   display: flex;
   justify-content: space-between;
@@ -25,14 +23,9 @@ const InnerCont = styled.div`
     color: inherit;
   }
 `
-
 const NftName = styled.div`
   font-weight: 600;
 `
-const NftPrice = styled.div`
-  font-weight: 400;
-`
-
 const StyledAlert = styled.div`
   padding: 1em;
   height: 60px;
@@ -43,7 +36,7 @@ const StyledAlert = styled.div`
   strong {
     color: #E2761B;
   }
-`;
+`
 const AlertMessage = styled.div`
   margin-bottom: 1em;
   font-weight: 400;

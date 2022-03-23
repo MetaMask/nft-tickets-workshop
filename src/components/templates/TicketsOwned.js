@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import { ViewContext } from '../../context/ViewProvider'
-// import { ethers } from 'ethers'
 
 const Wrap = styled.div`
   display: grid;
@@ -9,7 +8,6 @@ const Wrap = styled.div`
   grid-template-rows: repeat(150px);
   /* border: 1px solid blue; */
 `
-
 const SvgItem = styled.div`
   width: 150px;
   padding: 8px;

@@ -14,11 +14,9 @@ const NftCard = styled.div`
   border: 1px solid #cfcfcf;
   margin: 8px;
 `
-
 const NftCollName = styled.div`
   padding: 8px;
 `
-
 const NftName = styled.div`
   padding: 8px;
   font-weight: 600;

@@ -8,24 +8,12 @@ export const reducer = (state, action) => {
         state.foxcon2022 = action.payload.foxcon2022
         return
       }
-
       case 'SET_ACCOUNT': {
         state.user = action.payload
         state.isLoading = false
         state.isConnected = true
         return
       }
-
-      case 'CONNECTED_NETWORK': {
-        state.chainId = action.payload
-        return
-      }
-
-      case 'CONNECTED_SIGNER': {
-        state.signer = action.payload
-        return
-      }
-
       default: break
     }
   }
