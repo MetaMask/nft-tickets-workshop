@@ -33,8 +33,24 @@ const NftPrice = styled.div`
   font-weight: 400;
 `
 
+const StyledAlert = styled.div`
+  padding: 1em;
+  height: 60px;
+  width: 800px;
+  word-break: break-word;
+  margin: 1rem 1rem 1rem 0.5rem;
+  border: 1px solid #E2761B;
+`;
+const AlertMessage = styled.div`
+  margin-bottom: 1em;
+  font-weight: 400;
+  font-size: 1em;
+`
+
 const TicketDetails = ({ ticket }) => {
-  const [isMinting, setIsMinting] = useState(false);
+  const [isMinting, setIsMinting] = useState(false)
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
   const { user, foxcon2022, chainId } = useContext(ViewContext)
   const { address } = user
 
@@ -53,6 +69,8 @@ const TicketDetails = ({ ticket }) => {
     })
     .catch((error) => {
       console.error(error)
+      setError(true)
+      setErrorMessage(error?.message)
       setIsMinting(false)
     })
   }
@@ -75,6 +93,14 @@ const TicketDetails = ({ ticket }) => {
           }
         </InnerCont>
       </NftCard>
+      { 
+        error && (
+          <StyledAlert>
+            <AlertMessage>Error: {errorMessage}</AlertMessage>
+            <button onClick={() => setError(false)}>dismiss</button>
+          </StyledAlert>
+        )
+      }
     </>
   )
 }

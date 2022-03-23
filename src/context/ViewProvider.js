@@ -58,7 +58,7 @@ export const ViewProvider = ({ children }) => {
         })
       }
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
   }, [setAccount, dispatch, foxcon2022Address])
 
