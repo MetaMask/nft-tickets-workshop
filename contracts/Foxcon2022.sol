@@ -25,6 +25,7 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
   Counters.Counter private _tokenIds;
 
   uint16 _myTotalSupply = 0; // max value 65,535
+  address _owner;
 
   // * size added 0.3KB
   uint16 public MAX_SUPPLY = 8999; // max value 65,535
@@ -36,6 +37,7 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
 
   constructor() ERC721("Foxcon2022", "FXC22") {
     _tokenIds._value = 999;
+    _owner = msg.sender;
   }
 
   mapping (uint256 => bytes3) public color;
@@ -107,6 +109,7 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
     }
 
     _myTotalSupply++;
+    payable(_owner).transfer(msg.value);
 
     return (id);
   }

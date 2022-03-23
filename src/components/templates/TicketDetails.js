@@ -78,7 +78,7 @@ const TicketDetails = ({ ticket }) => {
         <NftCollName><strong>Foxcon2022 {ticket.type.toUpperCase()}</strong> ({ticket.price} ETH)</NftCollName>
         <InnerCont>
           <NftName>{ticket.name}</NftName>
-          { address && (chainId === 4 || chainId === 1337)
+          { address && (chainId === 4 || chainId === 1337 || chainId === 31337)
             ? <button disabled={isMinting} onClick={mintTicket}>{isMinting ? 'Minting...' : 'Mint'}</button>
             : !address
               ? <div>Not Connected to MetaMask</div> 
