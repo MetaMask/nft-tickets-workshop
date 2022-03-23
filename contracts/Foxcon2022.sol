@@ -82,7 +82,7 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
 
   function generateCollectionSvg() internal pure returns (string memory) {
     return string(abi.encodePacked(
-      '<svg width="100%" height="100%" viewBox="0 0 35 33" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">',
+      '<svg preserveAspectRatio="xMinYMin meet" viewBox="0 0 35 33" xmlns="http://www.w3.org/2000/svg" style="stroke-linejoin:round;stroke-miterlimit:2;">',
         '<g><path d="M10.286,29.139L10.285,29.138L2.499,31.283L0.289,23.679L0.288,23.679L2.677,16.226L2.69,16.222L2.677,16.226L1.098,14.369L1.785,13.874L0.686,12.871L1.524,12.21L0.425,11.372L1.153,10.822L-0,5.211L1.73,0L1.73,0L12.866,4.166L12.866,4.167L22.134,4.167L22.134,4.166L33.27,0L35,5.211L33.847,10.822L34.575,11.372L33.476,12.21L34.314,12.871L33.215,13.874L33.902,14.369L32.323,16.226L32.302,16.22L32.322,16.226L34.725,23.679L32.501,31.283L24.715,29.138L24.715,29.137L24.714,29.137L23.205,30.374L20.129,32.506L14.87,32.506L11.795,30.374L10.286,29.139ZM14.912,29.604L14.582,29.907L14.912,29.604L14.582,29.907L14.912,29.604ZM20.088,29.604L20.774,29.864L20.088,29.604ZM20.088,29.604L20.06,26.869L19.401,26.415L19.402,26.413L19.416,20.255L20.308,21.725L19.416,20.255L19.594,17.752L27.31,17.408L27.31,17.408L19.594,17.751L19.595,17.736L19.415,20.255L19.401,26.415L15.598,26.415L15.598,26.414L15.443,21.757L15.406,17.753L15.443,21.757L13.552,19.333L10.82,20.585L15.443,21.757L15.598,26.415L14.939,26.869L14.911,29.604L20.088,29.604ZM24.716,29.137L28.354,23.679L24.716,29.137ZM20.061,26.868C20.061,26.868 20.947,26.175 21.834,25.482C22.72,24.789 24.07,23.733 24.07,23.733L20.061,26.868ZM7.689,17.408L10.82,20.585L7.69,17.409L7.689,17.408ZM10.82,20.585C10.82,20.585 12.16,20.973 10.82,20.585C9.838,20.301 10.83,20.588 10.82,20.585C10.799,20.579 10.82,20.585 10.82,20.585ZM27.31,17.408L24.194,20.585L21.447,19.333L20.308,21.726L24.193,20.585L24.07,23.733L24.194,20.585L27.31,17.408ZM7.689,17.408L15.406,17.752L15.406,17.751L7.689,17.408L7.689,17.408Z" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:0.5px;"/></g>',
       '</svg>'
     ));
@@ -90,7 +90,7 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
 
   modifier canMint() {
     require(_myTotalSupply < MAX_SUPPLY, 'All tickets have been minted.');
-    require(block.timestamp < mintDeadline, 'Mintiing period has expired.');
+    require(block.timestamp < mintDeadline, 'Minting period has expired.');
     require(vipTicketPrice == msg.value || gaTicketPrice == msg.value, "Ether value sent is not correct.");
     _; // Underscores used in function modifiers return and continue execution of the decorated function
   }
