@@ -1,9 +1,9 @@
 import { createContext, useEffect, useCallback } from 'react'
-import { useImmerReducer } from 'use-immer'
-import { ethers } from 'ethers'
-
 import { initialState } from './initialState.js'
 import { reducer } from '../reducers'
+
+import { useImmerReducer } from 'use-immer'
+import { ethers } from 'ethers'
 
 import foxcon2022Abi from '../lib/Foxcon2022.json'
 
