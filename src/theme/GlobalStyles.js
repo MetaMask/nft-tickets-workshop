@@ -1,9 +1,5 @@
-import { 
-  lighten, // cover 
-} from 'polished'
+import { lighten } from 'polished'
 import { createGlobalStyle } from 'styled-components'
-
-// import { COLORS } from './ColorPalette'
 
 const GlobalStyles = createGlobalStyle`
 
@@ -12,6 +8,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
+    font-family: 'Space Mono', monospace;
     margin: 0;
     padding: 0;
     position: relative;
@@ -67,7 +64,8 @@ const GlobalStyles = createGlobalStyle`
     height: 80px;
     border-top: 2px solid #000;
     grid-area: footer;
-    background-color: #fe5a58;
+    background-color: #333;
+    color: #fff;
     width: 100%;
     align-self: flex-end;
     display: flex;
@@ -91,9 +89,9 @@ const GlobalStyles = createGlobalStyle`
   nav {
     height: 100%;
     justify-self: center;
-    background-color: #49a6f9;
+    background-color: #666;
     opacity: 0.8;
-    background-image: radial-gradient(#000000 1px, #49a6f9 1px);
+    background-image: radial-gradient(#4f4f4f 1px, #4e4e4e 1px);
     background-size: 17px 17px;
     align-self: stretch;
     grid-area: nav;
@@ -104,6 +102,18 @@ const GlobalStyles = createGlobalStyle`
     @media (min-width: 1500px) {
       width: 14vw;
     }
+    ul {
+      list-style-type: none;
+    }
+    li {
+      padding-left: 0.5em; text-indent: -2em;
+    }
+    li > a {
+      color: #fff;
+    }
+    li > a:hover {
+      color: #999;
+    }
   }
 
   main {
@@ -111,10 +121,8 @@ const GlobalStyles = createGlobalStyle`
     z-index: 10;
     width: 100%;
     justify-self: stretch;
-    @media (min-width: 500px) {
-      display: grid;
-      place-items: center;
-    }
+    padding-left: 1em;
+    padding-top: 0.5em;
   }
 
   section {
@@ -216,9 +224,22 @@ const GlobalStyles = createGlobalStyle`
   }
 
   button {
+    display: flex;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+    padding: 0em 1.5em;
+    cursor: pointer;
+    border-radius: 50px;
+    border: 3px solid #E2761B;
+    img { height: 40px; width: 40px; margin-right: 10px; }
     background-color: ${lighten(0.075, '#16171c')};
-    color: #000;
+    color: #FFF;
     font-size: 1em;
+    p {
+      color: #FFF;
+    }
     &:disabled {
       cursor: not-allowed;
       user-select: none;
