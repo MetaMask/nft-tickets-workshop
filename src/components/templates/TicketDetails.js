@@ -41,6 +41,9 @@ const AlertMessage = styled.div`
   margin-bottom: 1em;
   font-weight: 400;
   font-size: 1em;
+  button {
+    user-select: none;
+  }
 `
 
 const TicketDetails = ({ ticket }) => {

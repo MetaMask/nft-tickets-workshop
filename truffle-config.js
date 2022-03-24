@@ -18,10 +18,17 @@
  *
  */
 
-const HDWalletProvider = require('@truffle/hdwallet-provider')
+ require('dotenv').config();
 
-const fs = require('fs')
-const mnemonic = fs.readFileSync(".secret").toString().trim()
+ const HDWalletProvider = require('@truffle/hdwallet-provider')
+ const mnemonic = process.env.OWNER_MNEMONIC
+ const owner = process.env.OWNER_ADDRESS
+ const infura_endpoint_rinkeby = process.env.INFURA_ENDPOINT_RINKEBY
+ const infura_endpoint_polygon = process.env.INFURA_ENDPOINT_POLYGON
+
+// const HDWalletProvider = require('@truffle/hdwallet-provider')
+// const fs = require('fs')
+// const mnemonic = fs.readFileSync(".secret").toString().trim()
 
 module.exports = {
   /**
@@ -34,13 +41,11 @@ module.exports = {
    * $ truffle test --network <network-name>
    */
 
-
   plugins: ["truffle-contract-size"],
   /*
-
     Resources on Contract Size: 
     - https://ethereum.org/en/developers/tutorials/downsizing-contracts-to-fight-the-contract-size-limit/
-    - / https://www.npmjs.com/package/truffle-contract-size
+    - https://www.npmjs.com/package/truffle-contract-size
 
     Max size for SOlidity contracts is: 24576 bytes or 24.576KB
     Running the follwoing command in your project root will give you the size of one or more contracts:
@@ -51,7 +56,6 @@ module.exports = {
     ├──────────────────────────────────────────────────────────────────────┼──────────┤
     │ Foxcon2022                                                           │ 21.54 K… │
     └──────────────────────────────────────────────────────────────────────┴──────────┘
-    
   */
 
   networks: {
@@ -61,11 +65,6 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
 
-    development: {
-     host: "127.0.0.1",     // Localhost (default: none)
-     port: 7545,            // Standard Ethereum port (default: none)
-     network_id: "*",       // Any network (default: none)
-    },
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
@@ -77,11 +76,16 @@ module.exports = {
     // },
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
+    development: {
+      host: "127.0.0.1",     // Localhost (default: none)
+      port: 7545,            // Standard Ethereum port (default: none)
+      network_id: "*",       // Any network (default: none)
+    },
     polygon: {
       provider: () => new HDWalletProvider(
-        mnemonic, `wss://polygon-mumbai.infura.io/ws/v3/250dcda6dc6249e1affbe4ffa016b675`
+        mnemonic, infura_endpoint_polygon
       ),
-      from: '0x568820334111ba2a37611F9Ad70BD074295D44C5', // Public wallet address
+      from: owner, // Public wallet address
       network_id: 80001,   // rinkeby's id
       gas: 5500000,        // rinkeby has a lower block limit than mainnet
       timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
@@ -89,9 +93,9 @@ module.exports = {
     },
     rinkeby: {
       provider: () => new HDWalletProvider(
-        mnemonic, `wss://rinkeby.infura.io/ws/v3/250dcda6dc6249e1affbe4ffa016b675`
+        mnemonic, infura_endpoint_rinkeby
       ),
-      from: '0x568820334111ba2a37611F9Ad70BD074295D44C5', // Public wallet address
+      from: owner, // Public wallet address
       network_id: 4,       // rinkeby's id
       gas: 5500000,        // rinkeby has a lower block limit than mainnet
       timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
@@ -114,7 +118,7 @@ module.exports = {
   compilers: {
     solc: {
       version: "0.8.4",    // Fetch exact version from solc-bin (default: truffle's version)
-      // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
+      // docker: true,     // Use "0.5.1" you've installed locally with docker (default: false)
       settings: {          // See the solidity docs for advice about optimization and evmVersion
        optimizer: {
          enabled: true,

@@ -120,7 +120,8 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
     string memory description = string(abi.encodePacked((vipTicketHolders[id] ? "VIP" : "General Admission"), ' access to Foxcon2022 on Dec, 10, 2022.'));
 
     bytes memory tokenJsonString = bytes(abi.encodePacked(
-      '{"name":"', name, '","description":"',description,'",', //'"external_url":"https://dappblitz.eth/', id.toString(), '.svg",', 
+      '{"name":"', name, '","description":"',description,'",', 
+      //'"external_url":"https://dappblitz.eth/', id.toString(),'",',
       '"attributes":[{"trait_type":"Ticket Type", "value":"', (vipTicketHolders[id] ? "VIP" : "GA"),  '"}],',
       '"owner":"', (uint160(ownerOf(id))).toHexString(20),'",',
       '"image":"',generateNftSvgByTokenId(id),'"}'

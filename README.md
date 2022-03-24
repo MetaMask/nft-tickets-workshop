@@ -29,7 +29,11 @@ npx create-react-app nft-ticket-workshop && cd $_
 ```
 
 ```bash
-npm i ethers ncp polished styled-components use-immer
+npm i ethers polished styled-components use-immer
+```
+
+```bash
+npm i ncp dotenv
 ```
 
 ```bash
@@ -496,8 +500,11 @@ If we look at the description, properties, levels and details of our NFT on Open
 We will need to create a `.env` file to store some of our project data, a little less sensitive than our wallet passphrase, and for this reason we will put all other project config data in environment variables:
 
 ```bash
-REACT_APP_INFURA_ENDPOINT=https://rinkeby.infura.io/v3/4b9789bfd31b46fd9df6934461cfbe52
-REACT_APP_NFT_CONTRACT_ADDRESS=0xBA1c7B327EfAD20F439a06694adE3Cdc89690A29
+INFURA_ENDPOINT_RINKEBY=wss://rinkeby.infura.io/ws/v3/250dcda6dc6249e1affbe4ffa016b675
+INFURA_ENDPOINT_POLYGON=wss://polygon-mumbai.infura.io/ws/v3/250dcda6dc6249e1affbe4ffa016b675
+OWNER_MNEMONIC=defy wrestle marine raccoon half liquid clutch address gospel photo gift issue
+OWNER_ADDRESS=0x568820334111ba2a37611F9Ad70BD074295D44C5
+REACT_APP_CONTRACT_ADDRESS=0x8A791620dd6260079BF849Dc5567aDC3F2FdC318
 ```
 
 In Create React App, anything placed in these files with the `REACT_APP_` prefix will be available will be defined for us on `process.env`. 
@@ -515,9 +522,9 @@ Let's make a `src/lib` directory in our project and import `Foxcon2022` contract
 import Web3 from 'web3'
 import Foxcon2022 from './Foxcon2022.json'
 
-let web3 = new Web3(process.env.REACT_APP_INFURA_ENDPOINT)
+let web3 = new Web3(process.env.INFURA_ENDPOINT)
 
-const contractAddress = process.env.REACT_APP_NFT_CONTRACT_ADDRESS
+const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS
 const contract = new web3.eth.Contract(Foxcon2022.abi, contractAddress)
 
 export { web3, contract, contractAddress }
