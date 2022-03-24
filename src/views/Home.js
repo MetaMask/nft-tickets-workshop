@@ -1,8 +1,8 @@
-import { useContext } from 'react'
 import { Link, HashRouter, Route, Routes } from 'react-router-dom'
-
-import { ViewContext } from '../context/ViewProvider'
 import GlobalStyles from '../theme/GlobalStyles'
+
+import { useContext } from 'react'
+import { ViewContext } from '../context/ViewProvider'
 
 import DisplayAddress from '../components/molecules/DisplayAddress'
 import ConnectMetaMask from '../components/molecules/ConnectMetaMask'
