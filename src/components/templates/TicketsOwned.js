@@ -33,6 +33,7 @@ const TicketsOwned = () => {
     if (provider) {
       provider.on('block', getOwnedTickets)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [provider])
   
   useEffect(() => {
@@ -54,6 +55,7 @@ const TicketsOwned = () => {
         Promise.all(promises).then(() => setTicketCollection(ticketsRetrieved))
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ownedTickets])
 
   let listOfTickets = ticketCollection.map(ticket =>

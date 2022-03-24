@@ -1,8 +1,6 @@
 import { lighten } from 'polished'
 import { createGlobalStyle } from 'styled-components'
 
-// import { COLORS } from './ColorPalette'
-
 const GlobalStyles = createGlobalStyle`
 
   html {
