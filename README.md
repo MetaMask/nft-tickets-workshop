@@ -28,6 +28,7 @@ Add these VS Code extensions for productivity, code highlighting and debugging:
 
 - [Step One](#step-one)
 - [Step Two](#step-two)
+- [Step Three](#step-three)
 
 ## Step One
 
@@ -373,7 +374,68 @@ OWNER_ADDRESS=<MetaMask Wallet Address>
 REACT_APP_CONTRACT_ADDRESS=
 ```
 
-For this demo we will not be adhering to standard contract size needed for mainnet, we will only deploy to testnets and more work would need to be done to optimize your contract size for a production deployment. But what we have will enable us to develop our frontend!
+> For this demo we will not be adhering to standard contract size needed for mainnet, we will only deploy to testnets and more work would need to be done to optimize your contract size for a production deployment. But what we have will enable us to develop our frontend!
+
+7. Deploy our contract to Rinkeby
+
+```bash
+truffle migrate --network rinkeby
+```
+
+Once this process finishes, you will see that your contract has been deployed, you need to copy the Contract Address and paste it into your `.env` file
+
+```text
+2_setup_Foxcon2022.js
+=====================
+
+   Deploying 'Foxcon2022'
+   ----------------------
+   > transaction hash:    0x5c0520b220b2c91b328f406754a0006159fd4e6890459f74b0dae0a2e87e792c
+   > Blocks: 1            Seconds: 12
+   > contract address:    0x681B7D96B5E4d70272B7f87dFDD8cF14758C0B28
+```
+
+With this in place we can start building our frontend!
+
+As a final note, if we want to automate the process of removing the `build` directory and recompiling and deploying our contracts, we can add the following lines to our `package.json` scripts object:
+
+Copy the following code into the `package.json` just below the `eject` script:
+
+```json
+    "clean:contract": "rm -rf build",
+    "clean:artifacts": "rm -fr src/lib/*",
+    "clean:node": "rm -rf node_modules",
+    "clean": "npm run clean:contract && npm run clean:artifacts && npm run clean:node",
+    "build:contract": "truffle compile",
+    "build:artifacts": "node scripts/artifacts.js ",
+    "build:all": "npm run build:contract && npm run build:artifacts",
+    "setup": "npm run clean && npm ci && npm run build:all"
+```
+
+Now you can run `npm run setup` to clean your build folder and copy the ABI over to the React project.
+
+Once this is done you will still need to do the following:
+
+1. Run: `truffle migrate --network rinkeby`
+2. Copy the Contract Address to `.env` file
+3. Run: `npm start` to start the client
+
+## Step Three
+
+This workshop is focused on building a Minting page for our ERC-721 Tokens, we have reviewed the basics of our contract and deployed to Rinkeby at this point and we need to create our Context API component in React to supply our contract and other important data to our components.
+
+We will also need to use the existng components we have supplied in the React project and build out the necessary components for our Master/Detail pages that enable minting for our users. 
+
+2. Build the ViewProvider using Context API
+
+For global state manaagement in our app, we have Context API that comes shipped with React, we already have a file at `src/context/ViewProvider.js` that we need to add some code to!
+
+
+
+
+
+
+
 
 Since we are importing a few OpenZeppelin files that in turn have their own dependencies, we will get much more than our one RPC contract `Foxcon2022.json`, built out into our `build/contracts` directory. As you can also see, these directories are ignored by git. 
 
@@ -394,6 +456,7 @@ If you complete the challenges below before April 5th and submit them as a PR to
 - Add TypeScript for types and errors
 - Add Solidity testing
 - Optimize the contract size to be below 24KB
+- Get information about our two NFT options from calling the contract rather than hardcoding them.
 
 ## Resources
 
@@ -401,3 +464,4 @@ If you complete the challenges below before April 5th and submit them as a PR to
 - [ETH Denver 2022 Infura NFT Slides](https://docs.google.com/presentation/d/e/2PACX-1vRmrW8raDcXbRvOl3aRn1R95wpLRUyILqI86EFpEZj8BKz_bCajBYk79uUGyfaKzqFf_YOZ4XeBjuPS/pub?start=false&loop=false&delayms=30000&slide=id.ga7c7e0fb3e_7_0)
 - [ETH Denver - Infura Demo](https://youtube.com/watch?v=OPtt2SiQ4qk)
 - [Master Ethers.js for Blockchain Step-By-Step](https://youtube.com)
+- [Downsizing Contracts to Fight Size Limit](https://soliditydeveloper.com/max-contract-size)

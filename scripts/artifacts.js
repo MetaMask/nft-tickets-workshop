@@ -1,4 +1,4 @@
-// let path = require('path')
+let path = require('path')
 let ncp = require('ncp').ncp
 
 ncp.limit = 16
