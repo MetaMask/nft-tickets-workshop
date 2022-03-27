@@ -48,7 +48,7 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
   }
 
   /**
-    * @dev Returns the wallet of a given wallet. Mainly for ease for frontend devs.
+    * @dev Returns the tokens owned by a given wallet. For use mainly on frontend.
     * @param _wallet The wallet to get the tokens of. NEEDS ENUMERABLE
     // * size added 0.3KB
   */
@@ -61,8 +61,6 @@ contract Foxcon2022 is ERC721Enumerable, Ownable {
     }
     return tokensId;
   }
-
-  // Add Transfer balance function
 
   function contractURI() public pure returns (string memory) {
     string memory image = Base64.encode(bytes(generateCollectionSvg()));
