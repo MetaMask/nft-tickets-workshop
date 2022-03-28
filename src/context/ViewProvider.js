@@ -86,7 +86,7 @@ export const ViewProvider = ({ children }) => {
   }
 
   return (
-    <ViewContext.Provider
+    <ViewContext.Provider 
       value={{
         state,
         dispatch,
@@ -100,7 +100,8 @@ export const ViewProvider = ({ children }) => {
         actions: { connect },
         bigNumberify,
         smolNumberify
-      }}>
+      }}
+    >
       {children}
     </ViewContext.Provider>
   )

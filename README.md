@@ -420,29 +420,190 @@ Once this is done you will still need to do the following:
 2. Copy the Contract Address to `.env` file
 3. Run: `npm start` to start the client
 
+This concludes the SOlidity portion of the workshop, we now have a backend (so to speak) for our Client Minting app to talk to and interact with.
+
 ## Step Three
 
-This workshop is focused on building a Minting page for our ERC-721 Tokens, we have reviewed the basics of our contract and deployed to Rinkeby at this point and we need to create our Context API component in React to supply our contract and other important data to our components.
+We will now focus on the Client Minting for our ERC-721 Tickets/Tokens.
 
-We will also need to use the existng components we have supplied in the React project and build out the necessary components for our Master/Detail pages that enable minting for our users. 
+### The ViewProvider Context
 
-2. Build the ViewProvider using Context API
+- Build the ViewProvider using [Context API](https://reactjs.org/docs/context.html)
 
-For global state manaagement in our app, we have Context API that comes shipped with React, we already have a file at `src/context/ViewProvider.js` that we need to add some code to!
+For global state management where data needs to be accessible by many components/levels in our application, we have the Context API. The Context API ships with React, so there are no dependencies to install.
+
+1. We have a file at `src/context/ViewProvider.js` that has some boilerplate setup but we need to add some more imports outside of `initialState`, and `reducer` WHich allow our state to be modified by various functions.
+
+Add the following code in place of `/* Additional Imports */`:
+
+```js
+import { useImmerReducer } from 'use-immer'
+import { ethers } from 'ethers'
+
+import foxcon2022Abi from '../lib/Foxcon2022.json'
+```
+
+- Why `useImmerReducer`?
+
+Updating a state can be a nightmare when you store an object with many nested properties (`initialState`), where only one of which you want to change.
+
+Read more on `useImmerReducer` [at this blog](https://vhudyma-blog.eu/react-hooks-useimmer-and-useimmerreducer/) on your own time and trust it's a good idea here for simplicity
+
+- Why Ethers
+
+Ethers can be used in your client, scripts, and NodeJS code to talk to an Ethereum node (Infura endpoint in our case). Its tools and utilities make our life easier working with Smart Contracts on Ethereum. A suggested resources for learning more is the [Master Ethers.js for Blockchain Step-By-Step](https://youtube.com) by [Gregory at Dapp University](https://www.youtube.com/c/DappUniversity).
 
 
+- Why do we need the Contract ABI?
+
+It is very similar to an API (Application Program Interface), a human-readable representation of our contract's interface. The ABI defines the methods and structures used to interact with the binary representation of our Solidity smart contract.
 
 
+2. Add two utility functions to enable converting Ether values from "0.01" to "10000000000000000" and vice versa.
 
+Add the following code in place of `/* Num Format Utilities */`:
+
+```js
+// Get ETH as small number ("0.01" => "10000000000000000")
+export const bigNumberify = (amt) => ethers.utils.parseEther(amt)
+
+// Get ETH as small number ("10000000000000000" => "0.01")
+export const smolNumberify = (amt, decimals = 18) => 
+ parseFloat(ethers.utils.formatUnits(amt, decimals))
+```
+
+3. Add top-level code to our ViewProvider component
+
+Add the following code in place of `/* Top Level Code */`:
+
+```js
+  const [state, dispatch] = useImmerReducer(reducer, initialState)
+  const foxcon2022Address = process.env.REACT_APP_CONTRACT_ADDRESS
+```
+
+This sets up our immer reducer and creates a value for our contract address.
+
+4. Add logic to `setAccounts` function
+
+Add the following code in place of `/* setAccount callback */` 
+Add `dispatch` in dependency array:
+
+```js
+    if (accounts.length > 0) {
+      try {
+        const connectedAccount = {
+          address: accounts[0],
+        }
+        dispatch({ type: 'SET_ACCOUNT', payload: connectedAccount })
+      } catch (e) {
+        console.error(e)
+      }
+    } else {
+      dispatch({ type: 'SET_ACCOUNT', payload: initialState.user })
+    }
+```
+
+5. Add logic to `connectUser` function
+
+Add the following code in place of `/* connectUser callback */` 
+Add `setAccount, dispatch, foxcon2022Address` in dependency array:
+
+```js
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      if (provider) {
+        const signer = await provider.getSigner()
+        const { name, chainId } = await provider.getNetwork()
+        const foxcon2022 = new ethers.Contract(foxcon2022Address, foxcon2022Abi.abi, signer)
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' })
+        setAccount(accounts)
+        dispatch({
+          type: 'CONNECTED_PROVIDER',
+          payload: {
+            provider,
+            signer,
+            chainId,
+            name,
+            foxcon2022
+          }
+        })
+      }
+    } catch (e) {
+      console.error(e)
+    }
+```
+
+This is where the work is done to use Ethers, connect to the ethereum provider and our contract and store all of this data in one central place for use throughout our components. This is the meat and potatoes of our Context.
+
+6. Add logic to `connectUser Effect`
+
+Add the following code in place of `/* connectUser Effect */` 
+Add `connectUser, dispatch` in dependency array:
+
+```js
+    if (window.ethereum) {
+      connectUser()
+      window.ethereum.on('accountsChanged', () => {
+        connectUser()
+      })
+      window.ethereum.on('chainChanged', () => {
+        connectUser()
+      })
+      window.ethereum.on('disconnect', () => {
+        dispatch({ type: 'SET_ACCOUNT', payload: initialState.user })
+      })
+    }
+```
+
+This checks to ensure `window.ethereum` exists and listens to various events we want to subscribe to use the `.on` keyword (`accountsChanged`, `chainChanged`, and `disconnect`). These will fire when someone connects, changes chain or disconnects from the ethereum provider using MetaMask.
+
+7. Gets the values (destructuring) needed for supplying data to our child components.
+
+Add the following code in place of `/* Destructure State */` 
+
+```js
+  const { foxcon2022, isConnected, signer, name, chainId, provider, user } = state
+```
+
+8. Await the `eth_requestAccounts` and use its return value to `setAccount()`
+
+Add the following code in place of `/* connect function */` 
+
+```js
+  const connect = async () => {
+    try {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
+      setAccount(accounts)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+```
+
+9. Supply the required data and methods to child components using React props
+
+Add the following code in place of `/* Provider State Values */` 
+
+```js
+        state,
+        dispatch,
+        foxcon2022,
+        isConnected,
+        provider,
+        signer,
+        user,
+        name,
+        chainId,
+        actions: { connect },
+        bigNumberify,
+        smolNumberify
+```
 
 
 
 Since we are importing a few OpenZeppelin files that in turn have their own dependencies, we will get much more than our one RPC contract `Foxcon2022.json`, built out into our `build/contracts` directory. As you can also see, these directories are ignored by git. 
 
 ![](./assets-readme/compile-oz-1.png)
-
-
-
 
 
 ## Contribution Challenges
@@ -453,10 +614,11 @@ The following challenges will be imperative to a project before launching it on 
 
 If you complete the challenges below before April 5th and submit them as a PR to this repositiory, and your PR is selected as the winner, you will recieve a special MetaMask SWAG care package and we will feature you in a tweet announcing the winner!
 
-- Add TypeScript for types and errors
-- Add Solidity testing
+- Add TypeScript for types and better errors
+- Add Solidity testing with Trufle Test or Mocha
 - Optimize the contract size to be below 24KB
-- Get information about our two NFT options from calling the contract rather than hardcoding them.
+- Get NFT options from contract (types/strutws) rather than hardcoded
+- Create better automation (updates our `.env` with contract address after deploy?)
 
 ## Resources
 
