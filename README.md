@@ -146,11 +146,11 @@ module.exports = {
 truffle create contract Foxcon2022
 ```
 
-The [ERC721Enumerable](https://docs.openzeppelin.com/contracts/4.x/api/token/erc721#IERC721Enumerable) interface is an optional interface we will use ti give us additional  features in our ERC721 token contract.
+The [ERC721Enumerable](https://docs.openzeppelin.com/contracts/4.x/api/token/erc721#IERC721Enumerable) interface is an optional interface we will use to give us additional features in our ERC721 token contract.
 
-OpenZeppelin provides us with a set of libraries written in Solidity that you can import to your smart contracts. So yu will see references to them in our imports.
+OpenZeppelin provides us with a set of libraries written in Solidity that you can import to your smart contracts. So you will see references to them in our imports.
 
-To save time, we are going to copy in the entire finished contract right now and we will go over each function live in the workshop and explain what each function and variable is doing for us:
+To save time, we are going to copy in the entire finished contract right now, and we will go over each function live in the workshop and explain what each function and variable is doing for us:
 
 This will create a file named: `Foxcon2022.sol` inside of our `contracts` directory with some boilerplate code. We will replace that code with the following:
 
@@ -358,9 +358,9 @@ library HexStrings {
 }
 ```
 
-In the workshop we will discuss contract size using onchain SVG assets, we will duscuss the code that is commented out and why. This workshop is mostly to learn MetaMask functionality in React, but interacting with a Smart Contract is needed. This contract is supplied so that we have something to work with and is not considered the holy grail of Solidity Contracts.
+In the workshop, we will discuss contract size using on-chain SVG assets, and we will discuss the code that is commented out and why. This workshop primarily focuses on MetaMask functionality in React, but interacting with a Smart Contract is needed. This contract is supplied so that we have something to work with and is not considered the holy grail but will allow us to get straight to work on our client.
 
-6. Create a `.env` file and ensure that you have already setup your MetaMask wallet and Infura account. Add the correct values for each item in our environment variables file. You will not yet have a `REACT_APP_CONTRACT_ADDRESS`, so leave it blank for now.
+6. Create a `.env` file and ensure that you have already set up your MetaMask wallet and Infura account. Add the correct values for each item in our environment variables file. You will not yet have a `REACT_APP_CONTRACT_ADDRESS`, so leave it blank for now.
 
 ```
 INFURA_PROJECT_ID=
@@ -374,7 +374,7 @@ OWNER_ADDRESS=<MetaMask Wallet Address>
 REACT_APP_CONTRACT_ADDRESS=
 ```
 
-> For this demo we will not be adhering to standard contract size needed for mainnet, we will only deploy to testnets and more work would need to be done to optimize your contract size for a production deployment. But what we have will enable us to develop our frontend!
+> For this demo, we will not be adhering to the standard contract size needed for mainnet, we will only deploy to testnets and more work would need to be done in order to optimize your contract size for production deployments on miannet. But what we have will enable us to develop our frontend!
 
 7. Deploy our contract to Rinkeby
 
@@ -382,7 +382,7 @@ REACT_APP_CONTRACT_ADDRESS=
 truffle migrate --network rinkeby
 ```
 
-Once this process finishes, you will see that your contract has been deployed, you need to copy the Contract Address and paste it into your `.env` file
+Once this process finishes, you will see that your contract has been deployed. You need to copy the Contract Address and paste it into your `.env` file.
 
 ```text
 2_setup_Foxcon2022.js
@@ -395,11 +395,11 @@ Once this process finishes, you will see that your contract has been deployed, y
    > contract address:    0x681B7D96B5E4d70272B7f87dFDD8cF14758C0B28
 ```
 
-Since we are importing a few OpenZeppelin files that in turn have their own dependencies, we will get much more than our one RPC contract `Foxcon2022.json`, built out into our `build/contracts` directory. As you can also see, these directories are ignored by git. 
+Since we are importing a few OpenZeppelin files that have their own dependencies, we will get much more than our one RPC contract, `Foxcon2022.json`, built out into our `build/contracts` directory. As you can also see, these directories are ignored by git. 
 
 ![](./assets-readme/compile-oz-1.png)
 
-With this in place we can start building our frontend!
+With this in place, we can start building our frontend!
 
 As a final note, if we want to automate the process of removing the `build` directory and recompiling and deploying our contracts, we can add the following lines to our `package.json` scripts object:
 
@@ -416,15 +416,15 @@ Copy the following code into the `package.json` just below the `eject` script:
     "setup": "npm run clean && npm ci && npm run build:all"
 ```
 
-Now you can run `npm run setup` to clean your build folder and copy the ABI over to the React project.
+Now you can run `npm run setup` to clean your build folder and copy the ABI to the React project.
 
-Once this is done you will still need to do the following:
+Once this is done, you will still need to do the following:
 
 1. Run: `truffle migrate --network rinkeby`
 2. Copy the Contract Address to `.env` file
 3. Run: `npm start` to start the client
 
-This concludes the SOlidity portion of the workshop, we now have a backend (so to speak) for our Client Minting app to talk to and interact with.
+This concludes the Solidity portion of the workshop. We now have a backend (so to speak) for our Minting app to talk to and interact with.
 
 ## Step Three
 
@@ -434,9 +434,9 @@ We will now focus on the Client Minting for our ERC-721 Tickets/Tokens.
 
 - Build the ViewProvider using [Context API](https://reactjs.org/docs/context.html)
 
-For global state management where data needs to be accessible by many components/levels in our application, we have the Context API. The Context API ships with React, so there are no dependencies to install.
+For global state management, where data needs to be accessible by many components/levels in our application, we have the Context API. The Context API ships with React, so there are no dependencies to install.
 
-1. We have a file at `src/context/ViewProvider.js` that has some boilerplate setup but we need to add some more imports outside of `initialState`, and `reducer` WHich allow our state to be modified by various functions.
+1. We have a file at `src/context/ViewProvider.js` that has some boilerplate setup, but we need to add some more imports outside of `initialState`, and `reducer`, Which allow our state to be modified by various functions.
 
 Add the following code in place of `/* Additional Imports */`:
 
@@ -455,13 +455,12 @@ Read more on `useImmerReducer` [at this blog](https://vhudyma-blog.eu/react-hook
 
 - Why Ethers
 
-Ethers can be used in your client, scripts, and NodeJS code to talk to an Ethereum node (Infura endpoint in our case). Its tools and utilities make our life easier working with Smart Contracts on Ethereum. A suggested resources for learning more is the [Master Ethers.js for Blockchain Step-By-Step](https://youtube.com) by [Gregory at Dapp University](https://www.youtube.com/c/DappUniversity).
+Ethers can be used in your client, scripts, and NodeJS code to talk to an Ethereum node (Infura endpoint in our case). Its tools and utilities make our life easier working with Smart Contracts on Ethereum. A suggested resource for learning more is the [Master Ethers.js for Blockchain Step-By-Step](https://youtube.com) by [Gregory at Dapp University](https://www.youtube.com/c/DappUniversity).
 
 
-- Why do we need the Contract ABI?
+- Why do we need the contract ABI?
 
 It is very similar to an API (Application Program Interface), a human-readable representation of our contract's interface. The ABI defines the methods and structures used to interact with the binary representation of our Solidity smart contract.
-
 
 2. Add two utility functions to enable converting Ether values from "0.01" to "10000000000000000" and vice versa.
 
