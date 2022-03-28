@@ -430,7 +430,7 @@ This concludes the SOlidity portion of the workshop, we now have a backend (so t
 
 We will now focus on the Client Minting for our ERC-721 Tickets/Tokens.
 
-### The ViewProvider Context
+### Update Context Provider `ViewProvider.js`
 
 - Build the ViewProvider using [Context API](https://reactjs.org/docs/context.html)
 
@@ -602,6 +602,30 @@ Add the following code in place of `/* Provider State Values */`
         bigNumberify,
         smolNumberify
 ```
+
+With the Context created we will now add the required code to each of the components that make up the Minting process of our application.
+
+### Update Root Component `index.js`
+
+1. Import Context into our Root Component
+
+Add the following code in place of `/* Imports */` 
+
+```js
+import { ViewProvider } from './context/ViewProvider'
+```
+
+2. Wrap the `<Home />` component with the `ViewProvider` tag
+
+```js
+  <React.StrictMode>
+    <ViewProvider>
+      <Home />
+    </ViewProvider>
+  </React.StrictMode>,
+```
+
+This will supply all children components of the `Home` component with our Context data.
 
 ## Contribution Challenges
 
