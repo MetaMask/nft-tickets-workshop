@@ -608,16 +608,16 @@ Since we are importing a few OpenZeppelin files that in turn have their own depe
 
 ## Contribution Challenges
 
-This workshop uses a repository that our MetaMask team delivers at conferences all over the world, it's a great place to start contributing in Web3, because you can apply what you already know about Web2. Anyone can fork, add features and documentation to help us iterate [on this project](https://github.com/metamask/nft-tickets-workshop/tree/final-onchain-svg)!
+This workshop uses a repository that our MetaMask team delivers at conferences worldwide; it's a great place to start contributing to Web3 because you can apply what you already know about Web2. Anyone can fork, add features and documentation to help us iterate [on this project](https://github.com/metamask/nft-tickets-workshop/tree/final-onchain-svg)!
 
-The following challenges will be imperative to a project before launching it on mainnet. YOu have the basics, but just as any demo application, it needs work before migrating to a production mainnet. People say and think that building an NFT project or any Web3 project is fairly easy, but it's not and testing will play a huge role in any real world project, but these tasks you will need to take on by yourself to esnure you are learning everything on your own.
+The following challenges will be imperative to a project before launching it on the mainnet. You have the basics, but just as any demo application, it needs work before migrating to a production mainnet. People think that building an NFT project or any Web3 project is relatively easy, but it's not, and testing will play a massive role in any real-world project, but these tasks you will need to take on by yourself to ensure you are learning everything on your own.
 
-If you complete the challenges below before April 5th and submit them as a PR to this repositiory, and your PR is selected as the winner, you will recieve a special MetaMask SWAG care package and we will feature you in a tweet announcing the winner!
+If you complete the challenges below before April 5th and submit them as a PR to this repository, and your PR is selected as the winner. You will receive a special MetaMask SWAG care package, and we will feature you in a tweet announcing the winner for our workshop challeng!
 
 - Add TypeScript for types and better errors
-- Add Solidity testing with Trufle Test or Mocha
+- Add Solidity testing with Truffle Test or Mocha
 - Optimize the contract size to be below 24KB
-- Get NFT options from contract (types/strutws) rather than hardcoded
+- Get NFT options from contract (types/strutcs) rather than hardcoded
 - Create better automation (updates our `.env` with contract address after deploy?)
 
 ## Resources
@@ -627,3 +627,4 @@ If you complete the challenges below before April 5th and submit them as a PR to
 - [ETH Denver - Infura Demo](https://youtube.com/watch?v=OPtt2SiQ4qk)
 - [Master Ethers.js for Blockchain Step-By-Step](https://youtube.com)
 - [Downsizing Contracts to Fight Size Limit](https://soliditydeveloper.com/max-contract-size)
+- [What is an ABI](https://www.quicknode.com/guides/solidity/what-is-an-abi)
