@@ -626,6 +626,160 @@ import { ViewProvider } from './context/ViewProvider'
 
 This will supply all children components of the `Home` component with our Context data.
 
+### Update Home Component `views/Home.js`
+
+1. Import All components and assets
+
+Add the following code in place of `/* Imports */` *as well as the line below it:
+
+```js
+import { useContext } from 'react'
+import { ViewContext } from '../context/ViewProvider'
+
+import DisplayAddress from '../components/molecules/DisplayAddress'
+import ConnectMetaMask from '../components/molecules/ConnectMetaMask'
+import InstallMetaMask from '../components/molecules/InstallMetaMask'
+import ConnectNetwork from '../components/molecules/ConnectNetwork'
+
+import Tickets from '../components/templates/Tickets'
+import TicketDetails from '../components/templates/TicketDetails'
+import TicketsOwned from '../components/templates/TicketsOwned'
+
+import vipExampleImage from '../assets/vip.png'
+import gaExampleImage from '../assets/ga.png'
+```
+
+2. Add top-level code to our Home component
+
+```js
+  const { user, chainId, actions, bigNumberify } = useContext(ViewContext)
+  const { address } = user
+
+  const ethGa = '0.01'
+  const ethVip = '0.02'
+  const ethGaHex = bigNumberify(ethGa)._hex
+  const ethVipHex = bigNumberify(ethVip)._hex
+
+  const tickets = [
+    {
+      type: "ga",
+      event: "Foxcon2022",
+      description: "Foxcon General Admission",
+      exampleImage: gaExampleImage,
+      price: ethGa,
+      priceHexValue: ethGaHex // '0x2386f26fc10000' *eserialize.com
+    },{
+      type: "vip",
+      event: "Foxcon2022",
+      description: "Foxcon VIP Access",
+      exampleImage: vipExampleImage,
+      price: ethVip,
+      priceHexValue: ethVipHex // '0x470de4df820000' *eserialize.com
+    }
+  ]
+
+```
+
+This imports and destructures our context as well as creates an object array we will use to showcase our two types of tickets. We also use those Num Utilities here. It's important these values are correct because our contract relies on the client passing the exact amount for the specific ticket. In our challenges, this is an area we can make make better and possibly fetch this info from the contract.
+
+3. Add ternary statement in header to display the correct component
+
+Add the following code in place of `{/* Header */}`
+
+```jsx
+        { address && chainId && chainId === 4
+          ? <DisplayAddress />
+          : address && chainId && chainId !== 4
+            ? <ConnectNetwork />
+            : window.ethereum
+              ? <ConnectMetaMask connect={actions.connect} />
+              : <InstallMetaMask />
+        }
+```
+
+Allows us to swich our components based off of the current context. Aids the user in installing or connecting to MetaMask, switching them to the correct chain and displaying their wallet address.
+
+4. Add Dynamic routes
+
+Add the following code in place of `{/* Setup Routes */}`
+
+```jsx
+            {tickets && tickets.map((ticket, i) =>
+              <Route key={`ticket-route${i}`} element={<TicketDetails ticket={ticket} />} path={`/${ticket.type}`} />
+            )}
+```
+
+5. Add Tickets Owned display
+
+Add the following code in place of `{/* Tickets Owned Display */}`
+
+```jsx
+          <TicketsOwned />
+          { !address
+              ? <div>Not Connected to MetaMask</div> 
+              : chainId && (chainId !== 4)
+                ? <div>Not Connected to Rinkeby ({chainId})</div>
+                : null
+          }
+```
+
+Now we have the ability with the routes to have a master/detail relationship with the `Tickets` and `TicketDetails` component. As well, we can show a user the NFT tickets they owned based on their wallet address.
+
+### Update Tickets Component `views/Tickets.js`
+
+1. Add Imports to Tickets component
+
+Add the following code in place of `/* Imports and Style Definitions */`
+
+```js
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+
+const Wrap = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 280px);
+  grid-template-rows: repeat(1, 120px);
+  /* border: 1px solid red; */
+`
+const NftCard = styled.div`
+  height: 80px;
+  width: 260px;
+  border-radius: 12px;
+  border: 1px solid #cfcfcf;
+  margin: 8px;
+`
+const NftCollName = styled.div`
+  padding: 8px;
+`
+const NftName = styled.div`
+  padding: 8px;
+  font-weight: 600;
+`
+```
+
+2. Add top-level code to our Tickets component
+
+```js
+  let nftGrid = tickets.map((ticket, i) =>
+    <NftCard key={`ticket${i}`}>
+      <Link to={`/${ticket.type}`}>
+        <NftCollName>{ticket.event}</NftCollName>
+        <NftName>{ticket.description}</NftName>
+      </Link>
+    </NftCard>
+  )
+
+```
+
+3. Add JSX to Tickets component
+
+Add the following code in place of `{/* JSX */}` *as well as the line below it:
+
+```js
+      <h1>Tickets Available</h1>
+      <Wrap>{nftGrid}</Wrap>
+```
+
 ## Contribution Challenges
 
 This workshop uses a repository that our MetaMask team delivers at conferences worldwide; it's a great place to start contributing to Web3 because you can apply what you already know about Web2. Anyone can fork, add features and documentation to help us iterate [on this project](https://github.com/metamask/nft-tickets-workshop/tree/final-onchain-svg)!
