@@ -28,9 +28,11 @@ export const ViewProvider = ({ children }) => {
   /* connect function */
 
   return (
-    <ViewContext.Provider value={{
-      /* Provider State Values */
-    }}>
+    <ViewContext.Provider 
+      value={{
+        /* Provider State Values */
+      }}
+    >
       {children}
     </ViewContext.Provider>
   )
