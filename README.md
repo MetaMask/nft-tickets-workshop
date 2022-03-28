@@ -395,6 +395,10 @@ Once this process finishes, you will see that your contract has been deployed, y
    > contract address:    0x681B7D96B5E4d70272B7f87dFDD8cF14758C0B28
 ```
 
+Since we are importing a few OpenZeppelin files that in turn have their own dependencies, we will get much more than our one RPC contract `Foxcon2022.json`, built out into our `build/contracts` directory. As you can also see, these directories are ignored by git. 
+
+![](./assets-readme/compile-oz-1.png)
+
 With this in place we can start building our frontend!
 
 As a final note, if we want to automate the process of removing the `build` directory and recompiling and deploying our contracts, we can add the following lines to our `package.json` scripts object:
@@ -598,13 +602,6 @@ Add the following code in place of `/* Provider State Values */`
         bigNumberify,
         smolNumberify
 ```
-
-
-
-Since we are importing a few OpenZeppelin files that in turn have their own dependencies, we will get much more than our one RPC contract `Foxcon2022.json`, built out into our `build/contracts` directory. As you can also see, these directories are ignored by git. 
-
-![](./assets-readme/compile-oz-1.png)
-
 
 ## Contribution Challenges
 
