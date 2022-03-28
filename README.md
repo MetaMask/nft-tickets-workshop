@@ -19,7 +19,7 @@ You must have these tools installed/setup
 
 ## Optional Prerequisites
 
-Add these VS Code extensions for productivity, code highlighting and debugging: 
+Add these VS Code extensions for productivity, code highlighting, and debugging: 
 
 - [solidity-extended](https://marketplace.visualstudio.com/items?itemName=beaugunderson.solidity-extended)
 - [solidity-debugger](https://marketplace.visualstudio.com/items?itemName=hosho.solidity-debugger)
@@ -34,24 +34,24 @@ Add these VS Code extensions for productivity, code highlighting and debugging:
 
 **Complete this step immediately**
 
-Ensure preququistes listed above are all installed (NodeJS, MetaMask Extension, Truffle, VS Code Plugins)
+Ensure prerequisites listed above are all installed (NodeJS, MetaMask Extension, Truffle, VS Code Plugins)
 
-We used Create React App to setup a working React project with some styles and pre-existing components, the rest we will build from scratch. Follow this README from the following link: [NFT Tickets Workshop README](https://github.com/metamask/nft-tickets-workshop):
+We used Create React App to set up a working React project with some styles and pre-existing components; the rest we will build from scratch. Follow this README from the following link: [NFT Tickets Workshop README](https://github.com/metamask/nft-tickets-workshop):
 
 ```bash
 git clone https://github.com/metamask/nft-tickets-workshop && cd nft-tickets-workshop && git checkout start && npm i
 ```
 
-Checkout `start` branch, install depenedencies and test that the client app works from it's starting point:
+Checkout `start` branch, install dependencies, and test that the client app works from its starting point:
 
 ```bash
 git checkout start && npm i
 ```
 
-This is will install the follwoing packages we have already included:
+This will install the following packages we have already included:
 `ethers polished styled-components use-immer ncp dotenv @openzeppelin/contracts base64-sol ncp truffle-contract-size`
 
-Run `npm start` and ensure that you get a standard React Projects with no errors in the terminal or in the browser console. You should see a fairly blank aplication and no errors in the console.
+Run `npm start` and ensure that you get a standard React Projects with no errors in the terminal or in the browser console. You should see a fairly blank application and no errors in the console.
 
 ![](./assets-readme/start-app-preview-01.png)
 
