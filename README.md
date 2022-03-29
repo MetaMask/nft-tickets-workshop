@@ -6,6 +6,7 @@ You must have these tools installed/setup
 - NVM or NodeJS
 - [MetaMask Browser Extension](https://metamask.io)
   - Install and create a wallet address spcificaly for the workshop (use for testing)
+  - You could setup another MetaMask throw away account on different browser or Setup Flask and disable your current MetaMask
 - [Truffle](https://trufflesuite.com/docs/truffle/)
     > npm i truffle -g
 - [Infura](https://infura.io)
@@ -13,9 +14,11 @@ You must have these tools installed/setup
  - Copy the following info into your `.env` file
   - ProjectId, Project Secret, Rinkeby, and Polygon Websocket Endpoint
 - [solidity](https://marketplace.visualstudio.com/items?itemName=JuanBlanco.solidity)
+  - This VS Code plugin will provide syntax highlighting and more
 - [vscode-styled-components](https://marketplace.visualstudio.com/items?itemName=styled-components.vscode-styled-components)
+  - This VS Code plugin will provide syntax highlighting for Styled Components in React Components
 - [Get Test ETH](https://faucets.chain.link/rinkeby)
- - Select Rinkeby Test Network and claim (ETH ONLY) twice
+ - Select "Ethereum Rinkeby" Test Network and claim test ETH
 
 ## Optional Prerequisites
 
@@ -34,9 +37,9 @@ Add these VS Code extensions for productivity, code highlighting, and debugging:
 
 **Complete this step immediately**
 
-Ensure prerequisites listed above are all installed (NodeJS, MetaMask Extension, Truffle, VS Code Plugins)
+Ensure prerequisites above are installed.
 
-We used Create React App to set up a working React project with some styles and pre-existing components; the rest we will build from scratch. Follow this README from the following link: [NFT Tickets Workshop README](https://github.com/metamask/nft-tickets-workshop):
+We set up a working React project with some styles and pre-existing components to create a solid starting point for the workshop; the rest we will build with explanation along the way.
 
 ```bash
 git clone https://github.com/metamask/nft-tickets-workshop && cd nft-tickets-workshop && git checkout start && npm i
