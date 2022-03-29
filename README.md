@@ -997,7 +997,9 @@ Allows us to swich our components based off of the current context. Aids the use
 
 4. Add Dynamic routes
 
-Add the following code in place of `{/* Setup Routes */}`
+Add the variable `tickets` to the first route in place of the empty object `{}` currently referenced.
+
+Next, Add the following code in place of `{/* Setup Routes */}`
 
 ```jsx
             {tickets && tickets.map((ticket, i) =>
