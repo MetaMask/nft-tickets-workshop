@@ -1,6 +1,6 @@
 /* Imports and Style Definitions */
 
-const Tickets = () => {
+const Tickets = ({ tickets }) => {
   /* Top Level Code */
   return (
     <>
