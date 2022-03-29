@@ -604,6 +604,24 @@ Add the following code in place of `/* Provider State Values */`
 
 With the Context created we will now add the required code to each of the components that make up the Minting process of our application.
 
+### Review Existing Components `src/components/*`
+
+1. We will start by reviewing the components in the `atoms` directory, these are components that are used in our molecules component directory.
+
+- `Button.js` and `Link.js`
+
+These are components that represent the `<button></button>` and `<a></a>` tags in our molecule components used to install MetaMask and connect to MetaMask and connect to the correct chain/network.
+
+In a larger more scaled application, these components might be used in more than just a few molecule components.
+
+2. Next, we will review the components in the `molecules` directory, these are components that are used in throughout `templates` or `views`. In other words components that represent pages or subcomponents of pages that are represented by routes or template-like components. These components are typically not re-used in our applications.
+
+3. Finally, we have our `templates`, these are components that although can be reused, are typically composed of `atoms` and `molecules` as well are typically referenced inside of `views` wwhich are components that represent certain areas of a website that contain routes and sub-routes like `Tickets`, `TicketDetails` or are components that span multiple routes like `TicketsOwned`.
+
+You don't have to organize your components in this specific directory structure, but for this Dapp, it just made sense to have a single View, we call it `Home.js` just for lack of a better name. 
+
+This component could have also been named `Frame` or something else, but it contains (the frame of our application) structured layout and a place where routes can load (Tickets and TicketDetails).
+
 ### Update Root Component `index.js`
 
 1. Import Context into our Root Component
@@ -625,6 +643,282 @@ import { ViewProvider } from './context/ViewProvider'
 ```
 
 This will supply all children components of the `Home` component with our Context data.
+
+### Update TicketsOwned Component `views/TicketsOwned.js`
+
+1. Add Imports to TicketsOwned component
+
+Add the following code in place of `/* Imports and Style Definitions */`
+
+```js
+import { useState, useEffect, useContext } from 'react'
+import styled from 'styled-components'
+import { ViewContext } from '../../context/ViewProvider'
+
+const Wrap = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 166px);
+  grid-template-rows: repeat(150px);
+  /* border: 1px solid blue; */
+`
+const SvgItem = styled.div`
+  width: 150px;
+  padding: 8px;
+  cursor: pointer;
+  &:hover img {
+    opacity:0.5
+  }
+  /* border: 1px solid red; */
+`
+```
+
+2. Add top-level code to our TicketsOwned component
+
+Add the following code in place of `/* Top Level Code */`:
+
+```js
+  const { user, foxcon2022, provider } = useContext(ViewContext)
+  const { address } = user
+  const [ownedTickets, setOwnedTickets] = useState([])
+  const [ticketCollection, setTicketCollection] = useState([])
+
+  const getOwnedTickets = async () => {
+    let mintedTickets = await foxcon2022.walletOfOwner(address)
+    setOwnedTickets(mintedTickets)
+  }
+
+  useEffect(() => {
+    if (provider) {
+      provider.on('block', getOwnedTickets)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [provider])
+
+  useEffect(() => {
+    if (provider) {
+      let ticketsRetrieved = []
+      if(ownedTickets.length > 0) {
+        const promises = ownedTickets.map(async(t) => {
+          const currentTokenId = t.toString()
+          let currentTicket = await foxcon2022.tokenURI(currentTokenId)
+          let base64ToString = window.atob(currentTicket.replace('data:application/json;base64,', ''))
+          base64ToString = JSON.parse(base64ToString)
+  
+          ticketsRetrieved.push({
+            tokenId: currentTokenId,
+            svgImage: base64ToString.image,
+            ticketType: base64ToString.attributes.find((x) => x.trait_type === "Ticket Type"),
+          })
+        })
+        Promise.all(promises).then(() => setTicketCollection(ticketsRetrieved))
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ownedTickets])
+
+  let listOfTickets = ticketCollection.map(ticket =>
+    <SvgItem key={`ticket${ticket.tokenId}`}>
+      <a href={`https://testnets.opensea.io/assets/${process.env.REACT_APP_CONTRACT_ADDRESS}/${ticket.tokenId}`}
+        alt={`View Token ${ticket.tokenId} on OpenSea!`} target="_blank" rel="noopener noreferrer"
+      >
+        <img src={ticket.svgImage} width="150" alt={`Ticket# ${ticket.tokenId}`} />
+      </a>
+    </SvgItem>
+  )
+
+```
+
+3. Add JSX to Tickets component
+
+Add the following code in place of `{/* JSX */}` *as well as the line below it:
+
+```js
+      <hr height="1" />
+      { ownedTickets.length > 0
+        ? <>
+            <div>You have {ownedTickets.length} ticket{ownedTickets.length > 1 ? 's' : ''}, click to view on OpenSea!</div>
+            <Wrap>{listOfTickets}</Wrap>
+          </>
+        : null
+      }
+```
+
+### Update Tickets Component `views/Tickets.js`
+
+1. Add Imports to Tickets component
+
+Add the following code in place of `/* Imports and Style Definitions */`
+
+```js
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+
+const Wrap = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 280px);
+  grid-template-rows: repeat(1, 120px);
+  /* border: 1px solid red; */
+`
+const NftCard = styled.div`
+  height: 80px;
+  width: 260px;
+  border-radius: 12px;
+  border: 1px solid #cfcfcf;
+  margin: 8px;
+`
+const NftCollName = styled.div`
+  padding: 8px;
+`
+const NftName = styled.div`
+  padding: 8px;
+  font-weight: 600;
+`
+```
+
+2. Add top-level code to our Tickets component
+
+Add the following code in place of `/* Top Level Code */`:
+
+```js
+  let nftGrid = tickets.map((ticket, i) =>
+    <NftCard key={`ticket${i}`}>
+      <Link to={`/${ticket.type}`}>
+        <NftCollName>{ticket.event}</NftCollName>
+        <NftName>{ticket.description}</NftName>
+      </Link>
+    </NftCard>
+  )
+
+```
+
+3. Add JSX to Tickets component
+
+Add the following code in place of `{/* JSX */}` *as well as the line below it:
+
+```js
+      <h1>Tickets Available</h1>
+      <Wrap>{nftGrid}</Wrap>
+```
+
+### Update Tickets Component `views/TicketDetails.js`
+
+1. Add Imports to TicketDetails component
+
+Add the following code in place of `/* Imports and Style Definitions */`
+
+```js
+import { useContext, useState } from 'react'
+import styled from 'styled-components'
+import { ViewContext } from '../../context/ViewProvider'
+
+const NftCard = styled.div`
+  width: 300px;
+  height: 390px;
+  border-radius: 12px;
+  border: 1px solid #cfcfcf;
+  margin: 8px;
+  /* border: 1px solid red; */
+`
+const NftCollName = styled.div`
+  padding: 8px;
+`
+const InnerCont = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  color: #222;
+  button {
+    background-color: #FFF;
+    color: inherit;
+  }
+`
+const NftName = styled.div`
+  font-weight: 600;
+`
+const StyledAlert = styled.div`
+  padding: 1em;
+  height: 60px;
+  width: 800px;
+  word-break: break-word;
+  margin: 1rem 1rem 1rem 0.5rem;
+  border: 1px solid #E2761B;
+  strong {
+    color: #E2761B;
+  }
+`
+const AlertMessage = styled.div`
+  margin-bottom: 1em;
+  font-weight: 400;
+  font-size: 1em;
+  button {
+    user-select: none;
+  }
+`
+```
+
+2. Add top-level code to our Home component
+
+Add the following code in place of `/* Top Level Code */`:
+
+```js
+  const [isMinting, setIsMinting] = useState(false)
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
+  const { user, foxcon2022, chainId } = useContext(ViewContext)
+  const { address } = user
+
+  const mintTicket = async () => {
+    console.log("minting start")
+    setIsMinting(true)
+
+    foxcon2022.mintItem({
+      from: address,
+      value: ticket.priceHexValue
+    })
+    .then(async(tx) => {
+      await tx.wait()
+      console.log(`Minting complete, mined: ${tx}`)
+      setIsMinting(false)
+    })
+    .catch((error) => {
+      console.error(error)
+      setError(true)
+      setErrorMessage(error?.message)
+      setIsMinting(false)
+    })
+  }
+
+```
+
+3. Add JSX to TicketDetails component
+
+Add the following code in place of `{/* JSX */}` *as well as the line below it:
+
+```js
+      <NftCard>
+        <img width="300" height="300" src={ticket.exampleImage} alt={ticket.description} />
+        <NftCollName><strong>Foxcon2022 {ticket.type.toUpperCase()}</strong> ({ticket.price} ETH)</NftCollName>
+        <InnerCont>
+          <NftName>{ticket.name}</NftName>
+          { address && (chainId === 4 || chainId === 1337 || chainId === 31337)
+            ? <button disabled={isMinting} onClick={mintTicket}>{isMinting ? 'Minting...' : 'Mint'}</button>
+            : !address
+              ? <div>Not Connected to MetaMask</div> 
+              : chainId && chainId !== 4 
+                ? <div>Not Connected to Rinkeby</div>
+                : null 
+          }
+        </InnerCont>
+      </NftCard>
+      { 
+        error && (
+          <StyledAlert>
+            <AlertMessage><strong>Error:</strong> {errorMessage}</AlertMessage>
+            <button onClick={() => setError(false)}>dismiss</button>
+          </StyledAlert>
+        )
+      }
+```
 
 ### Update Home Component `views/Home.js`
 
@@ -650,6 +944,8 @@ import gaExampleImage from '../assets/ga.png'
 ```
 
 2. Add top-level code to our Home component
+
+Add the following code in place of `/* Top Level Code */`:
 
 ```js
   const { user, chainId, actions, bigNumberify } = useContext(ViewContext)
@@ -724,61 +1020,6 @@ Add the following code in place of `{/* Tickets Owned Display */}`
 ```
 
 Now we have the ability with the routes to have a master/detail relationship with the `Tickets` and `TicketDetails` component. As well, we can show a user the NFT tickets they owned based on their wallet address.
-
-### Update Tickets Component `views/Tickets.js`
-
-1. Add Imports to Tickets component
-
-Add the following code in place of `/* Imports and Style Definitions */`
-
-```js
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-
-const Wrap = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 280px);
-  grid-template-rows: repeat(1, 120px);
-  /* border: 1px solid red; */
-`
-const NftCard = styled.div`
-  height: 80px;
-  width: 260px;
-  border-radius: 12px;
-  border: 1px solid #cfcfcf;
-  margin: 8px;
-`
-const NftCollName = styled.div`
-  padding: 8px;
-`
-const NftName = styled.div`
-  padding: 8px;
-  font-weight: 600;
-`
-```
-
-2. Add top-level code to our Tickets component
-
-```js
-  let nftGrid = tickets.map((ticket, i) =>
-    <NftCard key={`ticket${i}`}>
-      <Link to={`/${ticket.type}`}>
-        <NftCollName>{ticket.event}</NftCollName>
-        <NftName>{ticket.description}</NftName>
-      </Link>
-    </NftCard>
-  )
-
-```
-
-3. Add JSX to Tickets component
-
-Add the following code in place of `{/* JSX */}` *as well as the line below it:
-
-```js
-      <h1>Tickets Available</h1>
-      <Wrap>{nftGrid}</Wrap>
-```
 
 ## Contribution Challenges
 
