@@ -21,6 +21,7 @@ const Home = () => {
         <div>
           <Routes>
             <Route path="/" exact element={<Tickets tickets={{}} />} />
+            {/* Setup Routes */}
           </Routes>
         </div>
         {/* Tickets Owned Display */}

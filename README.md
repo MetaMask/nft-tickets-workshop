@@ -647,7 +647,7 @@ import { ViewProvider } from './context/ViewProvider'
 
 This will supply all children components of the `Home` component with our Context data.
 
-### Update TicketsOwned Component `views/TicketsOwned.js`
+### Update TicketsOwned Component `templates/TicketsOwned.js`
 
 1. Add Imports to TicketsOwned component
 
@@ -746,7 +746,7 @@ Add the following code in place of `{/* JSX */}` *as well as the line below it:
       }
 ```
 
-### Update Tickets Component `views/Tickets.js`
+### Update Tickets Component `templates/Tickets.js`
 
 1. Add Imports to Tickets component
 
@@ -803,7 +803,7 @@ Add the following code in place of `{/* JSX */}` *as well as the line below it:
       <Wrap>{nftGrid}</Wrap>
 ```
 
-### Update Tickets Component `views/TicketDetails.js`
+### Update Tickets Component `templates/TicketDetails.js`
 
 1. Add Imports to TicketDetails component
 
