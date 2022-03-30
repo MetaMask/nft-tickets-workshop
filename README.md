@@ -52,7 +52,7 @@ git checkout start && npm i
 ```
 
 This will install the following packages we have already included:
-`ethers polished styled-components use-immer ncp dotenv @openzeppelin/contracts base64-sol ncp truffle-contract-size`
+`ethers polished styled-components use-immer ncp dotenv @openzeppelin/contracts base64-sol ncp truffle-contract-size @truffle/hdwallet-provider`
 
 Run `npm start` and ensure that you get a standard React Projects with no errors in the terminal or in the browser console. You should see a fairly blank application and no errors in the console.
 
