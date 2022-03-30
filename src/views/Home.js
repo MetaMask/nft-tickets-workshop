@@ -1,26 +1,34 @@
+import { Link, HashRouter, Route, Routes } from 'react-router-dom'
 import GlobalStyles from '../theme/GlobalStyles'
 
+/* Imports */
+import Tickets from '../components/templates/Tickets'
+
 const Home = () => {
+  /* Top Level Code */
   return (
-    <>
+    <HashRouter>
       <GlobalStyles />
       <header>
-        <div>header</div>
+        {/* Header */}
       </header>
-      {/* <nav>
+      <nav>
         <ul>
-          <li>one</li>
-          <li>two</li>
-          <li>three</li>
+          <li><Link to={`/`}>Tickets</Link></li>
         </ul>
-      </nav> */}
+      </nav>
       <main>
-        <div>main</div>
+        <div>
+          <Routes>
+            <Route path="/" exact element={<Tickets tickets={{}} />} />
+          </Routes>
+        </div>
+        {/* Tickets Owned Display */}
       </main>
       <footer>
-        <div>footer</div>
+        <div>Foxcon2022</div>
       </footer>
-    </>
+    </HashRouter>
   )
 }
 
