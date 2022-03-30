@@ -23,6 +23,7 @@ const Home = () => {
             <Route path="/" exact element={<Tickets tickets={{}} />} />
           </Routes>
         </div>
+        {/* Tickets Owned Display */}
       </main>
       <footer>
         <div>Foxcon2022</div>
