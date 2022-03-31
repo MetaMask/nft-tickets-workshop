@@ -414,18 +414,16 @@ Copy the following code into the `package.json` just below the `eject` script:
     "clean:node": "rm -rf node_modules",
     "clean": "npm run clean:contract && npm run clean:artifacts && npm run clean:node",
     "build:contract": "truffle compile",
+    "build:migrate": "truffle migrate --network rinkeby | tee compile.log",
+    "build:env": "sed -i '' -E \"s/REACT_APP_CONTRACT_ADDRESS=.+/REACT_APP_CONTRACT_ADDRESS=$(cat compile.log | grep 'contract address' | tr ' ' '\n' | tail -1)/\" .env",
     "build:artifacts": "node scripts/artifacts.js ",
-    "build:all": "npm run build:contract && npm run build:artifacts",
+    "build:all": "npm run build:contract && npm run build:migrate && npm run build:env && npm run build:artifacts",
     "setup": "npm run clean && npm ci && npm run build:all"
 ```
 
 Now you can run `npm run setup` to clean your build folder and copy the ABI to the React project.
 
-Once this is done, you will still need to do the following:
-
-1. Run: `truffle migrate --network rinkeby`
-2. Copy the Contract Address to `.env` file
-3. Run: `npm start` to start the client
+Once this is done, you will need to run: `npm start` to start the client
 
 This concludes the Solidity portion of the workshop. We now have a backend (so to speak) for our Minting app to talk to and interact with.
 

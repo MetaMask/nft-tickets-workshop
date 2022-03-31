@@ -10,6 +10,7 @@
 
 # production
 /build
+compile.log
 
 # misc
 .DS_Store
