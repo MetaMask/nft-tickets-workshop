@@ -9,6 +9,8 @@ import ConnectMetaMask from '../components/molecules/ConnectMetaMask'
 import InstallMetaMask from '../components/molecules/InstallMetaMask'
 import ConnectNetwork from '../components/molecules/ConnectNetwork'
 
+import Accounts from '../components/templates/Accounts'
+
 import Tickets from '../components/templates/Tickets'
 import TicketDetails from '../components/templates/TicketDetails'
 import TicketsOwned from '../components/templates/TicketsOwned'
@@ -59,12 +61,14 @@ const Home = () => {
       <nav>
         <ul>
           <li><Link to={`/`}>Tickets</Link></li>
+          <li><Link to={`/accounts`}>Accounts</Link></li>
         </ul>
       </nav>
       <main>
         <div>
           <Routes>
             <Route path="/" exact element={<Tickets tickets={tickets} />} />
+            <Route path="/accounts" exact element={<Accounts />} />
             {tickets && tickets.map((ticket, i) =>
               <Route key={`ticket-route${i}`} element={<TicketDetails ticket={ticket} />} path={`/${ticket.type}`} />
             )}
