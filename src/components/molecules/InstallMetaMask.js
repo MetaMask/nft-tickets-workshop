@@ -1,5 +1,6 @@
 import metaMask from '../../assets/metamask.svg'
 import MetaMaskOnboarding from '@metamask/onboarding'
+
 import { useEffect, useState, useRef } from 'react'
 
 const ONBOARD_TEXT = 'Install MetaMask'
